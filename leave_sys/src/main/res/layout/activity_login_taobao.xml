@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_login"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@mipmap/back_8"
+    android:orientation="vertical"
+    tools:context="com.kade.lyx.ask_for_leave.activity.LoginActivity">
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="80dp">
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_margin="20dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start"
+            android:src="@drawable/school_logo" />
+
+        <Switch
+            android:id="@+id/switchOfLogin"
+            android:layout_width="wrap_content"
+            android:layout_height="60dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_gravity="right"
+            android:layout_marginRight="60dp"
+            android:text="点此切换为审核端登录"
+            android:textColor="@color/white"
+            android:textSize="24sp"
+            android:visibility="gone"/>
+    </RelativeLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="horizontal">
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+     <ImageView
+         android:src="@mipmap/back_title"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content" />
+
+        </LinearLayout>
+
+        <FrameLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:layout_margin="60dp"
+                    android:layout_gravity="center"
+                    android:background="@drawable/login_back_shape"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:text="请假系统登录"
+                        android:textSize="35sp"
+                        android:textColor="#696969"
+                        android:textStyle="bold"/>
+
+
+                    <com.rengwuxian.materialedittext.MaterialEditText
+                        android:id="@+id/user_name"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="60dp"
+                        android:layout_marginRight="60dp"
+                        android:layout_marginTop="100dp"
+                        android:hint="请输入编号"
+                        android:textSize="35sp"
+                        app:met_floatingLabel="normal"
+                        app:met_floatingLabelText="请输入编号"
+                        app:met_textColorHint="#696969"
+                        app:met_iconLeft="@mipmap/user"
+                        />
+
+
+                    <com.rengwuxian.materialedittext.MaterialEditText
+                        android:id="@+id/user_password"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="60dp"
+                        android:layout_marginRight="60dp"
+                        android:layout_marginTop="50dp"
+                        android:hint="请输入密码"
+                        android:inputType="textPassword"
+                        android:textSize="35sp"
+                        app:met_floatingLabel="normal"
+                        app:met_floatingLabelText="请输入密码"
+                        app:met_iconLeft="@mipmap/pass"
+                        app:met_textColorHint="#696969"
+                        />
+
+
+                    <Button
+                        android:id="@+id/button"
+                        android:layout_width="200dp"
+                        android:layout_height="50dp"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="80dp"
+                        android:background="@drawable/corners_bg_big"
+                        android:onClick="login"
+                        android:text="登录"
+                        android:textColor="@color/milky_white"
+                        android:textSize="30sp" />
+
+                </LinearLayout>
+
+
+
+        </FrameLayout>
+
+
+    </LinearLayout>
+
+</LinearLayout>

@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/milky_white"
+    android:orientation="horizontal">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:background="@drawable/corners_bg_small"
+        android:paddingBottom="10dp">
+
+        <LinearLayout
+            android:id="@+id/ll"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/leave_tname"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_weight="1"
+                android:lines="1"
+                android:text="类别："
+                android:textColor="@color/grey_dark"
+                android:textSize="@dimen/text_big" />
+
+            <Button
+                android:id="@+id/leave_quit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:background="@drawable/corners_bg_small"
+                android:gravity="center"
+                android:padding="5dp"
+                android:text="取消请假"
+                android:textColor="@color/grey_dark"
+                android:textSize="14sp"
+                android:visibility="visible" />
+
+            <TextView
+                android:id="@+id/leave_state"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="20dp"
+                android:layout_marginTop="10dp"
+                android:text="加班"
+                android:textColor="@color/blue_text"
+                android:textSize="@dimen/text_big" />
+        </LinearLayout>
+
+        <View
+            android:id="@+id/item_line"
+            android:layout_width="match_parent"
+            android:layout_height="0.35dp"
+            android:layout_below="@id/ll"
+            android:layout_marginBottom="5dp"
+            android:background="@color/grey_low_2" />
+
+        <TextView
+            android:id="@+id/leave_name"
+            style="@style/style_text"
+            android:layout_below="@id/item_line"
+            android:layout_marginLeft="10dp"
+            android:text="请假人:张三"
+            android:textColor="@color/grey_dark"
+            android:visibility="gone" />
+
+
+        <TextView
+            android:id="@+id/leave_reason"
+            style="@style/style_text"
+            android:layout_below="@id/leave_name"
+            android:layout_marginLeft="10dp"
+            android:text="请假原因：家里有事，需要回老家处理。"
+            android:textColor="@color/grey_dark" />
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/leave_reason"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/leave_timeS"
+                style="@style/style_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:text="开始时间：2017-02-08 08:00:00"
+                android:textColor="@color/grey_dark" />
+
+            <View
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="3dp"
+                android:background="@color/blue_text" />
+
+            <TextView
+                android:id="@+id/leave_timeE"
+                style="@style/style_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="30dp"
+                android:layout_marginRight="20dp"
+                android:text="结束时间：2017-02-10 18:00:00"
+                android:textColor="@color/grey_dark" />
+
+            <View
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:layout_marginTop="3dp"
+                android:background="@color/blue_text" />
+
+            <TextView
+                android:id="@+id/leave_addtime"
+                style="@style/style_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:text="申请时间：2017-01-06 10:00:00"
+                android:textColor="@color/grey_dark" />
+
+
+        </LinearLayout>
+
+
+    </RelativeLayout>
+
+
+</LinearLayout>

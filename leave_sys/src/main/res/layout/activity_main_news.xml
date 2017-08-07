@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal"
+    tools:context=".activity.MainActivity">
+
+    <com.jude.rollviewpager.RollPagerView
+        android:id="@+id/imageShow"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        app:rollviewpager_play_delay="3000"></com.jude.rollviewpager.RollPagerView>
+
+    <View
+        android:layout_width="5dp"
+        android:layout_height="match_parent"
+        android:background="@color/grey_dark"/>
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            android:background="@color/primary">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:text="请假系统"
+                android:textColor="@color/white"
+                android:textSize="30sp"/>
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="请假记录"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="30dp"
+                android:layout_alignParentRight="true"
+                android:onClick="l_submit"
+                android:textColor="@color/white"
+                android:textSize="20sp"
+                android:drawablePadding="10dp"
+                android:drawableLeft="@mipmap/search"/>
+
+        </RelativeLayout>
+
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            app:cardBackgroundColor="@color/white"
+            app:cardCornerRadius="5dp"
+            app:cardElevation="3dp">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="20dp">
+
+
+                <ImageView
+                    android:id="@+id/iv"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:layout_alignParentRight="true"
+                    android:src="@mipmap/card_info_pic" />
+
+
+                <TextView
+                    android:id="@+id/cname"
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="@dimen/activity_horizontal_margin_small"
+                    android:textColor="@color/grey_low_2"
+                    android:textSize="20sp"
+
+                    />
+
+                <TextView
+                    android:id="@+id/sex"
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp"
+                    android:layout_below="@id/cname"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="@dimen/activity_horizontal_margin_small"
+                    android:textColor="@color/grey_low_2"
+                    android:textSize="20sp" />
+
+
+                <TextView
+                    android:id="@+id/basic_id"
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp"
+                    android:layout_below="@+id/sex"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginRight="8dp"
+                    android:layout_marginTop="@dimen/activity_horizontal_margin_small"
+                    android:textColor="@color/grey_low_2"
+                    android:textSize="20sp" />
+
+
+                <TextView
+                    android:id="@+id/basic_class"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/basic_id"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginRight="8dp"
+                    android:layout_marginTop="@dimen/activity_horizontal_margin_small"
+                    android:height="30dp"
+                    android:textColor="@color/grey_low_2"
+                    android:textSize="20sp" />
+
+
+            </RelativeLayout>
+
+        </android.support.v7.widget.CardView>
+
+
+        <com.jaredrummler.materialspinner.MaterialSpinner
+            android:id="@+id/afleave_type"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_marginTop="5dp"
+            android:textSize="20sp" />
+
+        <EditText
+            android:id="@+id/afleave_reason"
+            android:layout_width="match_parent"
+            android:layout_height="190dp"
+            android:layout_marginTop="5dp"
+            android:background="@color/white"
+            android:gravity="start"
+            android:hint="请输入请假理由"
+            android:padding="20dp"
+            android:textColorHint="@color/grey_low_2"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/afleave_sTime"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:background="@color/white"
+            android:clickable="true"
+            android:drawableRight="@drawable/right_arrow_24px"
+            android:padding="20dp"
+            android:text="选择开始时间"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/afleave_eTime"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="1dp"
+            android:background="@color/white"
+            android:clickable="true"
+            android:drawableRight="@drawable/right_arrow_24px"
+            android:padding="20dp"
+            android:text="选择结束时间"
+            android:textSize="20sp" />
+
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="50dp"
+            android:background="@drawable/corners_bg_big"
+            android:paddingLeft="60dp"
+            android:paddingRight="60dp"
+            android:paddingTop="20dp"
+            android:paddingBottom="20dp"
+            android:onClick="afl_submit"
+            android:text="提交"
+            android:textColor="@color/white"
+            android:textSize="25sp"
+            android:layout_gravity="center_horizontal"/>
+
+
+    </LinearLayout>
+
+
+</LinearLayout>

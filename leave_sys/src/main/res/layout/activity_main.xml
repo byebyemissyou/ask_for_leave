@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".activity.MainActivity">
+
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/main_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="68dp"
+            app:contentInsetStart="0dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="卡德智能安卓大屏请假系统"
+                android:textColor="@color/milky_white"
+                android:textSize="@dimen/text_big" />
+
+        </android.support.v7.widget.Toolbar>
+
+    </android.support.design.widget.AppBarLayout>
+
+    <com.jude.rollviewpager.RollPagerView
+        android:id="@+id/imageShow"
+        android:layout_width="match_parent"
+        android:layout_height="250dp"
+        app:rollviewpager_play_delay="3000">
+    </com.jude.rollviewpager.RollPagerView>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+
+
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="350dp"
+                android:layout_marginTop="10dp"
+                app:cardBackgroundColor="@color/white"
+                app:cardCornerRadius="5dp"
+                app:cardElevation="3dp">
+
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="10dp">
+
+
+                    <ImageView
+                        android:layout_width="80dp"
+                        android:layout_height="80dp"
+                        android:layout_alignParentRight="true"
+                        android:src="@mipmap/card_info_pic" />
+
+
+                    <TextView
+                        android:id="@+id/cname"
+                        android:layout_width="wrap_content"
+                        android:layout_height="30dp"
+                        android:layout_marginLeft="8dp"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="@dimen/activity_horizontal_margin_small"
+                        android:textColor="@color/grey_low_2"
+                        android:textSize="@dimen/toolbarTextSize"
+
+                        />
+
+                    <TextView
+                        android:id="@+id/sex"
+                        android:layout_width="wrap_content"
+                        android:layout_height="30dp"
+                        android:layout_below="@id/cname"
+                        android:layout_marginLeft="8dp"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="@dimen/activity_horizontal_margin_small"
+                        android:textColor="@color/grey_low_2"
+                        android:textSize="@dimen/toolbarTextSize"
+
+                        />
+
+
+                    <TextView
+                        android:id="@+id/basic_id"
+                        android:layout_width="wrap_content"
+                        android:layout_height="30dp"
+                        android:layout_below="@+id/sex"
+                        android:layout_marginLeft="8dp"
+                        android:layout_marginRight="8dp"
+                        android:layout_marginTop="@dimen/activity_horizontal_margin_small"
+                        android:textColor="@color/grey_low_2"
+                        android:textSize="@dimen/toolbarTextSize"
+
+                        />
+
+
+                    <TextView
+                        android:id="@+id/basic_class"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/basic_id"
+                        android:layout_marginLeft="8dp"
+                        android:layout_marginRight="8dp"
+                        android:layout_marginTop="@dimen/activity_horizontal_margin_small"
+                        android:height="30dp"
+                        android:textColor="@color/grey_low_2"
+                        android:textSize="@dimen/toolbarTextSize" />
+
+
+                </RelativeLayout>
+
+
+            </android.support.v7.widget.CardView>
+
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:background="@color/grey_low" />
+
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <com.jaredrummler.materialspinner.MaterialSpinner
+                android:id="@+id/afleave_type"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_marginTop="5dp"
+                android:textSize="@dimen/toolbarTextSize" />
+
+            <EditText
+                android:id="@+id/afleave_reason"
+                android:layout_width="match_parent"
+                android:layout_height="190dp"
+                android:layout_marginTop="5dp"
+                android:background="@color/white"
+                android:gravity="start"
+                android:hint="请输入请假理由"
+                android:padding="15dp"
+                android:textColorHint="@color/grey_low_2"
+                android:textSize="@dimen/toolbarTextSize" />
+
+            <TextView
+                android:id="@+id/afleave_sTime"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="5dp"
+                android:background="@color/white"
+                android:clickable="true"
+                android:drawableRight="@drawable/right_arrow_24px"
+                android:padding="10dp"
+                android:text="选择开始时间"
+                android:textSize="@dimen/toolbarTextSize" />
+
+            <TextView
+                android:id="@+id/afleave_eTime"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="1dp"
+                android:background="@color/white"
+                android:clickable="true"
+                android:drawableRight="@drawable/right_arrow_24px"
+                android:padding="10dp"
+                android:text="选择结束时间"
+                android:textSize="@dimen/toolbarTextSize" />
+
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="10dp"
+                android:background="@color/white"
+                android:onClick="afl_submit"
+                android:text="提交"
+                android:textColor="@color/orange_exit"
+                android:textSize="@dimen/toolbarTextSize" />
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="10dp"
+                android:background="@color/white"
+                android:onClick="l_submit"
+                android:text="查询请假记录"
+                android:textColor="@color/orange_exit"
+                android:textSize="@dimen/toolbarTextSize" />
+
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+</LinearLayout>

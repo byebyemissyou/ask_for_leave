@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#FF4081</color>
+    <color name="primary">#FF03A9F4</color>
+    <color name="primary_dark">#225491</color>
+    <color name="status_bar_color">@color/primary_dark</color>
+    <color name="milky_white">#ececec</color>
+    <color name="white">#FFFFFF</color>
+    <color name="brand_main">#21a5b8</color>
+    <color name="brand_main_1">#1f8b9b</color>
+    <color name="brand_main_3">#0b363c</color>
+    <color name="grey_dark">#666666</color>
+    <color name="grey_dark_2">#333333</color>
+    <color name="positive_loud">#7ed321</color>
+    <color name="pale_blue">#B2DFEE</color>
+    <color name="water_color">#bdafdfe4</color>
+    <color name="green_cyan">#007d65</color>
+    <color name="primary_low">#d76bcffc</color>
+    <color name="primary_low_2">#5bccff</color>
+    <color name="sakura">#feeeed</color>
+    <color name="orange">#ff9c3b</color>
+    <color name="orange_exit">#e77610</color>
+    <color name="green_low">#007d65</color>
+    <color name="black_low">#262626</color>
+    <color name="black">#0d0d0d</color>
+    <color name="gif_background3">#DA2E1B</color>
+    <color name="blue_text">#0a4976</color>
+    <color name="tab_layout_back">#bae1ed</color>
+    <color name="blue_link">#0000CC</color>
+    <color name="button_color">#de38a5fd</color>
+    <color name="grey_low">#b6b6b6</color>
+    <color name="grey_low_2">#949494</color>
+
+
+
+
+</resources>

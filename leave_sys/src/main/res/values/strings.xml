@@ -1,0 +1,21 @@
+<resources>
+    <string name="app_name">请假客户端</string>
+    <string name="spinner_hint">请选择类别</string>
+    <string name="action_settings">Settings</string>
+    <string name="but_done">完成选择</string>
+    <string name="title_tab_start_date">开始日期</string>
+    <string name="ttile_tab_end_date">结束日期</string>
+    <string name="school_details">  成都卡德智能科技有限公司(ChengDu Card Intelligent Technology Co., Ltd.) 创始于二00二年，位于成都高新技术产业开发南区。专业致力于开发以智能卡及RFID等物联网技术为基础的各类行业应用整体解决方案，面向校园、企事业单位、城市以及银行和电信运营商，从事智能一卡通系统的平台软件、应用软件及各类智能卡、物联网终端的研发、生产、集成、销售及服务的高科技股份制公司。</string>
+    <string name="forget_pass">忘记密码？点此尝试找回</string>
+    <string name="app_guide">1.点击首页圆形蓝色浮动按钮，可添加快捷方式（4种）</string>
+    <string name="app_guide_2">2.点击消息页面顶部的按钮可切换列表（通知公告列表与常见问题列表）</string>
+    <string name="app_guide_3">3.挂失名单卡片可右滑清除以查看更多的卡片</string>
+    <string name="app_guide_4">4.交易汇总上方的显示框可点击选择起止时间</string>
+    <string name="no_network_tips">无网络连接，请检查网络！</string>
+    <string name="connect_failed_tips">与服务器连接失败</string>
+    <string name="school_title">学校简介</string>
+    <string name="kingName1">小额支付</string>
+    <string name="about_introduceString">行业领先的专业一卡通服务解决方案提供商\n\n专注智慧校园、智慧企业(园区)、智慧城市15年</string>
+
+
+</resources>
