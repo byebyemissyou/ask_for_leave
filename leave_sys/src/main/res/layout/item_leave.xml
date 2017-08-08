@@ -3,9 +3,11 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/milky_white"
-    android:orientation="horizontal">
+    android:orientation="horizontal"
+    >
 
     <RelativeLayout
+        android:id="@+id/leave_all"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"

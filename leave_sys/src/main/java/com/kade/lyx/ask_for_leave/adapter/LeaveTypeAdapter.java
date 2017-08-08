@@ -1,7 +1,8 @@
 package com.kade.lyx.ask_for_leave.adapter;
 
-import android.content.Context;
+import android.app.Activity;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -16,6 +17,9 @@ import com.kade.lyx.ask_for_leave.entity.Student;
 import com.kade.lyx.ask_for_leave.network.Request_Task;
 import com.kade.lyx.ask_for_leave.utils.ToastUtil;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.LinkedHashMap;
 import java.util.List;
 
@@ -25,25 +29,27 @@ import java.util.List;
 
 public class LeaveTypeAdapter extends RecyclerView.Adapter<LeaveTypeAdapter.TypeVH> {
     private List<Student.LeaveDetails> list;
-    private Context context;
+    private Activity context;
     private AlertDialog.Builder builder;
+    private String cid;
 
-    public LeaveTypeAdapter(List<Student.LeaveDetails> list,Context context){
+    public LeaveTypeAdapter(List<Student.LeaveDetails> list, Activity context, String cid) {
         this.list = list;
         this.context = context;
+        this.cid = cid;
     }
 
-    public void setNewData(List<Student.LeaveDetails> list){
+    public void setNewData(List<Student.LeaveDetails> list) {
         this.list = list;
         notifyDataSetChanged();
     }
 
 
-    private LinkedHashMap<String,String> putMapData(){
-        LinkedHashMap<String,String> map = new LinkedHashMap<>();
-        map.put(ConstantPool.PARAM_NAME,"Login");
-        map.put("cnumber", "888888");
-        map.put("pwd", "000000");
+    private LinkedHashMap<String, String> putMapData(String l_id) {
+        LinkedHashMap<String, String> map = new LinkedHashMap<>();
+        map.put(ConstantPool.PARAM_NAME, "CancelLeave");
+        map.put("id", cid);
+        map.put("lid", l_id);
 
         return map;
 
@@ -51,16 +57,19 @@ public class LeaveTypeAdapter extends RecyclerView.Adapter<LeaveTypeAdapter.Type
 
     @Override
     public TypeVH onCreateViewHolder(ViewGroup parent, int viewType) {
+
         View inflate = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_leave, parent, false);
         return new TypeVH(inflate);
+
     }
 
     @Override
     public void onBindViewHolder(TypeVH vh, final int position) {
         Student.LeaveDetails details = list.get(position);
-        String state = "" ;
-        builder = new  AlertDialog.Builder(context);
-        switch (details.getState()){
+        String state = "";
+        builder = new AlertDialog.Builder(context);
+
+        switch (details.getState()) {
 
             case "0":
                 state = "未审核";
@@ -75,21 +84,21 @@ public class LeaveTypeAdapter extends RecyclerView.Adapter<LeaveTypeAdapter.Type
                 state = "未知";
         }
 
-        if (null==details.getCname()){
+        if (null == details.getCname()) {
 
             vh.leave_name.setVisibility(View.GONE);
 
-        }else {
+        } else {
 
             vh.leave_name.setVisibility(View.VISIBLE);
-            vh.leave_name.setText("请假人："+details.getCname());
+            vh.leave_name.setText("请假人：" + details.getCname());
         }
 
-        if (state.equals("未审核")){
+        if (state.equals("未审核")) {
 
             vh.leave_quit.setVisibility(View.VISIBLE);
 
-        }else {
+        } else {
 
             vh.leave_quit.setVisibility(View.GONE);
 
@@ -99,28 +108,36 @@ public class LeaveTypeAdapter extends RecyclerView.Adapter<LeaveTypeAdapter.Type
             @Override
             public void onClick(View v) {
 
-
-
-
-
-
-                builder.setTitle("请求网络").setMessage("返回data").
+                builder.setTitle("确定取消该请假吗？").setMessage("清除此条请假信息").
                         setPositiveButton("确认", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
 
                                 dialog.dismiss();
 
-                                new Request_Task(putMapData(), new Request_Task.CallBack() {
+
+//                                ToastUtil.showToast(context,"position = " +position +"\n lid = "+list.get(position).getLid());
+
+                                //需要在这里再确定position否则位置不对
+                                new Request_Task(putMapData(list.get(position).getLid()), new Request_Task.CallBack() {
                                     @Override
                                     public void doResult(String data) {
 
-                                        ToastUtil.showToast(context,"返回data  = "+data);
+                                        try {
+                                            JSONObject object = new JSONObject(data);
 
+                                            if (object.getString("result").equals("0")) {
 
+                                                ToastUtil.showToast(context, "请假取消成功");
+                                                reStartActivity();
+
+                                            }
+
+                                        } catch (JSONException e) {
+                                            e.printStackTrace();
+                                        }
                                     }
                                 }).execute(ConstantPool.URL);
-
 
 
                             }
@@ -134,31 +151,35 @@ public class LeaveTypeAdapter extends RecyclerView.Adapter<LeaveTypeAdapter.Type
                 }).show();
 
 
-
-
-
             }
         });
 
 
         vh.leave_type.setText(state);
         vh.leave_tname.setText(details.getTname());
-        vh.leave_addtime.setText("申请时间："+details.getAddtime());
-        vh.leave_reason.setText("请假原因："+details.getReason());
-        vh.leave_timeS.setText("开始时间："+details.getStarttime());
-        vh.leave_timeE.setText("结束时间："+details.getEndtime());
-
+        vh.leave_addtime.setText("申请时间：" + details.getAddtime());
+        vh.leave_reason.setText("请假原因：" + details.getReason());
+        vh.leave_timeS.setText("开始时间：" + details.getStarttime());
+        vh.leave_timeE.setText("结束时间：" + details.getEndtime());
 
 
     }
+
+    private void reStartActivity() {
+        Intent intent = context.getIntent();
+        context.finish();
+        context.startActivity(intent);
+    }
+
 
     @Override
     public int getItemCount() {
 
-            return list.size();
+        return list.size();
     }
 
-    class TypeVH extends RecyclerView.ViewHolder{
+    class TypeVH extends RecyclerView.ViewHolder {
+
         TextView leave_type;
         TextView leave_tname;
         TextView leave_addtime;
@@ -167,6 +188,7 @@ public class LeaveTypeAdapter extends RecyclerView.Adapter<LeaveTypeAdapter.Type
         TextView leave_timeE;
         TextView leave_name;
         Button leave_quit;
+
 
         public TypeVH(View itemView) {
             super(itemView);
@@ -178,7 +200,7 @@ public class LeaveTypeAdapter extends RecyclerView.Adapter<LeaveTypeAdapter.Type
             leave_timeS = (TextView) itemView.findViewById(R.id.leave_timeS);
             leave_timeE = (TextView) itemView.findViewById(R.id.leave_timeE);
             leave_name = (TextView) itemView.findViewById(R.id.leave_name);
-            leave_quit = (Button)itemView.findViewById(R.id.leave_quit);
+            leave_quit = (Button) itemView.findViewById(R.id.leave_quit);
 
         }
     }

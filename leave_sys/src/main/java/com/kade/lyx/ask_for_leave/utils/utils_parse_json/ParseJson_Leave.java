@@ -31,6 +31,7 @@ public class ParseJson_Leave {
             for (int i=0;i<jsonArray.length();i++){
                 Student.LeaveDetails leaveDetails = student.new LeaveDetails();
                 JSONObject leave_object =  (JSONObject) jsonArray.get(i);
+                leaveDetails.setLid(leave_object.getString("lid"));
                 leaveDetails.setTname(leave_object.getString("tname"));
                 leaveDetails.setStarttime(leave_object.getString("starttime"));
                 leaveDetails.setEndtime(leave_object.getString("endtime"));

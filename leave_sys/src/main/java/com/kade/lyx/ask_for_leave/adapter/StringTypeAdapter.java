@@ -79,5 +79,7 @@ public class StringTypeAdapter extends RecyclerView.Adapter<StringTypeAdapter.VH
 
     public interface OnItemClick{
         void onClick(TextView textView,int pos,TypeBean data);
+
+
     }
 }

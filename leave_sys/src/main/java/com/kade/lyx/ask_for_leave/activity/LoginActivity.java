@@ -149,11 +149,13 @@ public class LoginActivity extends BasicActivity implements CompoundButton.OnChe
 
                                                 if (parseJson(data).equals("1")) {
 
+/*
                                                     ToastUtil.showToast(getApplicationContext(), "您属于可审核用户！");
                                                     Intent in = new Intent(LoginActivity.this, LeaveCheckActivity.class);
                                                     in.putExtra("cid", cid);
                                                     startActivity(in);
                                                     LoginActivity.this.finish();
+*/
 
 
                                                 } else {

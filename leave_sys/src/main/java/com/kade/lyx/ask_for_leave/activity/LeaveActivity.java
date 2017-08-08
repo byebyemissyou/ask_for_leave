@@ -36,6 +36,7 @@ public class LeaveActivity extends BasicActivity {
     private RecyclerView rv_type_3;
     private StringTypeAdapter adapter1;
     private ArrayList<TypeBean> type1;
+    private String cid;
 
 
     public void putMapData() {
@@ -57,6 +58,7 @@ public class LeaveActivity extends BasicActivity {
         setContentView(R.layout.activity_leave_new);
 
         list_type = getIntent().getStringArrayListExtra("type");
+        cid = getIntent().getStringExtra("cid");
         if (list_type == null) {
             list_type = new ArrayList<>();
         }
@@ -82,7 +84,7 @@ public class LeaveActivity extends BasicActivity {
 
                         rv_type_3.setLayoutManager(new LinearLayoutManager(LeaveActivity.this));
                         list = student.getLeaveDetailsList();
-                        adapter = new LeaveTypeAdapter(list,LeaveActivity.this);
+                        adapter = new LeaveTypeAdapter(list,LeaveActivity.this,cid);
                         rv_type_3.setAdapter(adapter);
 
 

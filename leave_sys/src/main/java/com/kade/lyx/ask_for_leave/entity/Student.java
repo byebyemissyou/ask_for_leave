@@ -457,6 +457,16 @@ public class Student {
         private String reason;
         private String addtime;
 
+        public String getLid() {
+            return lid;
+        }
+
+        public void setLid(String lid) {
+            this.lid = lid;
+        }
+
+        private String lid;
+
         public String getId() {
             return id;
         }
