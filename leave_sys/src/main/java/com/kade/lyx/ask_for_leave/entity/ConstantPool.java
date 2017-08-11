@@ -12,9 +12,10 @@ public class ConstantPool {
 
 
 //    public static final String URL = "http://192.168.0.104:8074/Dispatch.aspx";//配置服务器地址
-
+//
     public static final String URL = "http://192.168.0.102:8095/Dispatch.aspx";  //本地备用URL
 //  public static final String URL = "http://192.168.0.102:8088/Dispatch.aspx";  //本地备用URL
+//  public static final String URL = "eccard.cdcardzn.com:8086/Dispatch.aspx";  //可能的备用地址
 
     public static final String RESULT_OK = String.valueOf(0);
     public static final String PARAM_NAME = "param";
