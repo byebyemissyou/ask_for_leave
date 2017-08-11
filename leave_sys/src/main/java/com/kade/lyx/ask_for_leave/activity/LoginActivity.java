@@ -54,8 +54,6 @@ public class LoginActivity extends BasicActivity implements CompoundButton.OnChe
 
     private void initView() {
 
-
-
         user_name = (MaterialEditText) findViewById(R.id.user_name);
         user_password = (MaterialEditText) findViewById(R.id.user_password);
         switchOfLogin = (Switch) findViewById(R.id.switchOfLogin);

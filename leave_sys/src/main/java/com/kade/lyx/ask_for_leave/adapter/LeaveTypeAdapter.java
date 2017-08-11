@@ -108,13 +108,12 @@ public class LeaveTypeAdapter extends RecyclerView.Adapter<LeaveTypeAdapter.Type
             @Override
             public void onClick(View v) {
 
-                builder.setTitle("确定取消该请假吗？").setMessage("清除此条请假信息").
+                builder.setTitle("确定取消该请假吗？").setMessage("删除此条请假信息").
                         setPositiveButton("确认", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
 
                                 dialog.dismiss();
-
 
 //                                ToastUtil.showToast(context,"position = " +position +"\n lid = "+list.get(position).getLid());
 
@@ -129,6 +128,8 @@ public class LeaveTypeAdapter extends RecyclerView.Adapter<LeaveTypeAdapter.Type
                                             if (object.getString("result").equals("0")) {
 
                                                 ToastUtil.showToast(context, "请假取消成功");
+
+                                                //重启Activity以刷新数据 （更新整个页面所有的数据方法比较困难，暂时用重启activity处理）
                                                 reStartActivity();
 
                                             }
@@ -150,10 +151,8 @@ public class LeaveTypeAdapter extends RecyclerView.Adapter<LeaveTypeAdapter.Type
                     }
                 }).show();
 
-
             }
         });
-
 
         vh.leave_type.setText(state);
         vh.leave_tname.setText(details.getTname());
@@ -190,9 +189,8 @@ public class LeaveTypeAdapter extends RecyclerView.Adapter<LeaveTypeAdapter.Type
         Button leave_quit;
 
 
-        public TypeVH(View itemView) {
+        private TypeVH(View itemView) {
             super(itemView);
-
             leave_type = (TextView) itemView.findViewById(R.id.leave_state);
             leave_tname = (TextView) itemView.findViewById(R.id.leave_tname);
             leave_addtime = (TextView) itemView.findViewById(R.id.leave_addtime);
@@ -201,6 +199,7 @@ public class LeaveTypeAdapter extends RecyclerView.Adapter<LeaveTypeAdapter.Type
             leave_timeE = (TextView) itemView.findViewById(R.id.leave_timeE);
             leave_name = (TextView) itemView.findViewById(R.id.leave_name);
             leave_quit = (Button) itemView.findViewById(R.id.leave_quit);
+
 
         }
     }

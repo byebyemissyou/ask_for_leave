@@ -170,6 +170,7 @@ public class LeaveActivity extends BasicActivity {
     }
 
     private void initViews() {
+
         rv_type_1 = (RecyclerView) findViewById(R.id.rv_type_1);
         rv_type_3 = (RecyclerView) findViewById(R.id.rv_type_3);
 
