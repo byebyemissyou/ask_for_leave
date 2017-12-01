@@ -15,6 +15,7 @@
         android:layout_marginLeft="40dp"
         android:layout_marginRight="40dp"
         android:layout_gravity="right"
+        android:onClick="onClick"
         android:textColor="@color/grey_dark"
         android:text="点此切换为审核端登录"
         android:layout_width="wrap_content"

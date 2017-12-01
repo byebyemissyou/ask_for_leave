@@ -6,16 +6,16 @@ android {
 
     defaultConfig {
         applicationId "com.kade.lyx.ask_for_leave"
-        minSdkVersion 17
+        minSdkVersion 19
         targetSdkVersion 24
         versionCode 1
         versionName "1.0"
 
         ndk {
             //选择要添加的对应cpu类型的.so库。
-            abiFilters 'armeabi', 'armeabi-v7a', 'armeabi-v8a', 'x86', 'x86_64', 'mips', 'mips64'
+//            abiFilters 'armeabi', 'armeabi-v7a', 'armeabi-v8a', 'x86', 'x86_64', 'mips', 'mips64'
+            abiFilters 'armeabi', 'armeabi-v7a', 'x86'
         }
-
 
 
     }
@@ -25,14 +25,11 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
-
-
 }
 
 
 
 dependencies {
-
     compile fileTree(include: ['*.jar'], dir: 'libs')
     testCompile 'junit:junit:4.12'
     //MD风格spinner控件框架
@@ -40,24 +37,20 @@ dependencies {
     //MaterialEditText
     compile 'com.rengwuxian.materialedittext:library:2.1.4'
     //可展开和收缩的textView
-
     compile 'com.android.support:appcompat-v7:24.0.0'
     compile 'com.android.support:design:24.0.0'
     compile 'com.android.support:cardview-v7:24.0.0'
-
     //带时分秒的单时间选择器
     compile 'com.github.codbking:PickTime:v1.0.1'
     //滚动Banner控件
     compile 'com.jude:rollviewpager:1.4.6'
     compile 'com.squareup.picasso:picasso:2.3.2'
     compile 'me.kareluo.ui:popmenu:1.1.0'
-
     compile 'com.tbruyelle.rxpermissions:rxpermissions:0.9.4@aar'
     compile 'io.reactivex:rxandroid:1.1.0'
     compile 'io.reactivex:rxjava:1.1.0'
-
     compile 'com.squareup.retrofit2:retrofit:2.3.0'
-
     compile 'com.facebook.stetho:stetho:1.0.1'
-
+    compile 'com.github.bumptech.glide:glide:3.7.0'
+    compile files('libs/fastjson-1.2.7.jar')
 }

@@ -38,6 +38,7 @@ public class ParseJson_Leave {
                 leaveDetails.setState(leave_object.getString("state"));
                 leaveDetails.setReason(leave_object.getString("reason"));
                 leaveDetails.setAddtime(leave_object.getString("addtime"));
+                // TODO: 2017/10/23 0023 审核备注 
 
                 leaveDetailses.add(leaveDetails);
 

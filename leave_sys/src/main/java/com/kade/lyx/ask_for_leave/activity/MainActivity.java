@@ -1,15 +1,24 @@
 package com.kade.lyx.ask_for_leave.activity;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.os.IBinder;
+import android.text.TextUtils;
+import android.util.Base64;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.codbking.widget.DatePickDialog;
 import com.codbking.widget.OnSureLisener;
@@ -23,6 +32,7 @@ import com.kade.lyx.ask_for_leave.entity.ConstantPool;
 import com.kade.lyx.ask_for_leave.entity.Student;
 import com.kade.lyx.ask_for_leave.network.Request_Task;
 import com.kade.lyx.ask_for_leave.utils.ToastUtil;
+import com.kade.lyx.ask_for_leave.utils.UtilTools;
 import com.kade.lyx.ask_for_leave.utils.utils_parse_json.ParseJson_AD;
 import com.kade.lyx.ask_for_leave.utils.utils_parse_json.ParseJson_BasicInfo;
 
@@ -59,6 +69,11 @@ public class MainActivity extends BasicActivity {
     private String type = "";
     private ImageView iv;
     private Bitmap bitmap;
+    private AlertDialog alertDialog;
+    private ImageView head;
+    private TextView device_no_tv;//显示设备号
+    private SharedPreferences sp;
+    private String Device_no;//设备号
 
 
     //比较两个时间的前后，如果结束时间超过开始时间返回true，结束时间未超过开始时间则返回false
@@ -143,7 +158,7 @@ public class MainActivity extends BasicActivity {
         map.put("starttime", sTime);
         map.put("endtime", eTime);
         map.put("reason", content);
-
+        map.put("fid", "1");//2017/10/18 10:27 新增 传默认值1，默认审核流程为1(多余参数)
     }
 
     private LinkedHashMap<String, String> putMapData_AD() {
@@ -155,7 +170,12 @@ public class MainActivity extends BasicActivity {
     }
 
     private void initView() {
-
+        createDialog();
+        sp = getSharedPreferences(ConstantPool.LOGIN_ID, MODE_PRIVATE);//获取SharedPreferences用于储存id和用户名密码
+        Device_no = sp.getString(ConstantPool.DEVICE_NO, "000000");
+        device_no_tv = (TextView) findViewById(R.id.device_no_tv);
+        device_no_tv.setText(Device_no);//初始化设备号
+        head = (ImageView) findViewById(R.id.head);
         cid = getIntent().getStringExtra("cid");
         cname = (TextView) findViewById(R.id.cname);
         iv = (ImageView) findViewById(R.id.iv);
@@ -180,11 +200,15 @@ public class MainActivity extends BasicActivity {
                     }
 
                 }
-            }).execute(ConstantPool.URL);
+            }).execute(mUrl);
         }
 
         afleave_eTime = (TextView) findViewById(R.id.afleave_eTime);
+        eTime = UtilTools.getCurTime().substring(0, 10) + " 23:59:59";
+        afleave_eTime.setText("选择结束时间 " + eTime);//默认请假结束时间今天的23.59分
         afleave_sTime = (TextView) findViewById(R.id.afleave_sTime);
+        sTime = UtilTools.getCurTime();
+        afleave_sTime.setText("选择开始时间 " + sTime);//请假默认开始时间为当前时间
         afleave_reason = (EditText) findViewById(R.id.afleave_reason);
         afleave_type = (MaterialSpinner) findViewById(R.id.afleave_type);
         sex = (TextView) findViewById(R.id.sex);
@@ -224,29 +248,29 @@ public class MainActivity extends BasicActivity {
                         imageShow.setAdapter(new BannerAdapter(getApplicationContext(), imageShow, urlList));
                     }
                 }
-            }).execute(ConstantPool.URL);
+            }).execute(mUrl);
 
         }
 
     }
 
     private void setTimeClickListener() {
-        iv.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-//                RxPermissions rxPermissions = new RxPermissions(MainActivity.this);
-//                String[] permissions = new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE};
-//                rxPermissions.request(permissions)
-//                        .subscribe(new Action1<Boolean>() {
-//                            @Override
-//                            public void call(Boolean aBoolean) {
-//                                if (aBoolean) {
-//                                    takePhoto();
-//                                }
-//                            }
-//                        });
-            }
-        });
+//        iv.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+////                RxPermissions rxPermissions = new RxPermissions(MainActivity.this);
+////                String[] permissions = new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE};
+////                rxPermissions.request(permissions)
+////                        .subscribe(new Action1<Boolean>() {
+////                            @Override
+////                            public void call(Boolean aBoolean) {
+////                                if (aBoolean) {
+////                                    takePhoto();
+////                                }
+////                            }
+////                        });
+//            }
+//        });
 
         afleave_sTime.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -256,6 +280,7 @@ public class MainActivity extends BasicActivity {
                 dialog.setYearLimt(15);
                 //设置标题
                 dialog.setTitle("选择请假开始时间");
+
                 //设置类型
                 dialog.setType(DateType.TYPE_ALL);
                 //设置消息体的显示格式，日期格式
@@ -324,37 +349,7 @@ public class MainActivity extends BasicActivity {
                 ToastUtil.showToast(MainActivity.this, "请选择类型&时间或补充请假理由");
             } else {
                 if (compareTime(sTime, eTime)) {
-                    if (isNetworkConnected()) {
-
-                        dialog.show();
-                        putMapData();
-
-                        new Request_Task(map, new Request_Task.CallBack() {
-                            @Override
-                            public void doResult(String data) {
-                                dialog.dismiss();
-                                if (!data.equals(ConstantPool.RESULT_FAILED)) {
-                                    try {
-                                        JSONObject object = new JSONObject(data);
-                                        String result = object.getString("result");
-                                        if (result.equals("0")) {
-                                            ToastUtil.showToast(MainActivity.this.getApplicationContext(), "提交成功！");
-                                        } else {
-                                            ToastUtil.showToast(MainActivity.this.getApplicationContext(), "请假时间段冲突，提交失败！");
-                                        }
-                                    } catch (JSONException e) {
-                                        e.printStackTrace();
-                                    }
-                                } else {
-                                    afleave_reason.setText(content);
-                                    ToastUtil.showToast(MainActivity.this.getApplicationContext(), getString(R.string.connect_failed_tips));
-                                }
-                            }
-
-                        }).execute(ConstantPool.URL);
-                    } else {
-                        ToastUtil.showToast(MainActivity.this, getString(R.string.no_network_tips));
-                    }
+                    alertDialog.show();
                 } else {
                     ToastUtil.showToast(getApplicationContext(), "时间选择有误，请检查！");
                 }
@@ -365,7 +360,46 @@ public class MainActivity extends BasicActivity {
         }
     }
 
+    /**
+     * 提交请假接口申请
+     */
+    private void submitApply() {
+        if (isNetworkConnected()) {
 
+            dialog.show();
+            putMapData();
+
+            new Request_Task(map, new Request_Task.CallBack() {
+                @Override
+                public void doResult(String data) {
+                    dialog.dismiss();
+                    if (!data.equals(ConstantPool.RESULT_FAILED)) {
+                        try {
+                            JSONObject object = new JSONObject(data);
+                            String result = object.getString("result");
+                            if (result.equals("0")) {
+                                ToastUtil.showToast(MainActivity.this.getApplicationContext(), "提交成功！");
+                            } else {
+                                ToastUtil.showToast(MainActivity.this.getApplicationContext(), "请假时间段冲突，提交失败！");
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    } else {
+                        afleave_reason.setText(content);
+                        ToastUtil.showToast(MainActivity.this.getApplicationContext(), getString(R.string.connect_failed_tips));
+                    }
+                }
+
+            }).execute(mUrl);
+        } else {
+            ToastUtil.showToast(MainActivity.this, getString(R.string.no_network_tips));
+        }
+    }
+
+    public void afl_back(View view) {
+        startActivity(new Intent(this, LoginActivity.class));
+    }
 
     private void setInfo() {
 
@@ -383,15 +417,27 @@ public class MainActivity extends BasicActivity {
                 if (!data.equals(ConstantPool.RESULT_FAILED)) {
                     cname.setText("姓名： " + student.getName());
                     sex.setText("性别： " + student.getSex());
-                    basic_class.setText("单位： " + student.getDname());
+                    basic_class.setText("部门/班级： " + student.getDname());
                     basic_id.setText("编号： " + student.getCnumber());
+                    //  头像图片
+//                    Glide.with(MainActivity.this).load(student.getPic()).fitCenter()
+//                            .placeholder(R.drawable.defout_head).crossFade().into(head);
+                    if (!TextUtils.isEmpty(student.getPic())) {
+                        head.setImageBitmap(onDecodeClicked(student.getPic()));
+                    }
                 } else {
                     ToastUtil.showToast(getApplicationContext(), getString(R.string.connect_failed_tips));
                 }
             }
-        }).execute(ConstantPool.URL);
+        }).execute(mUrl);
 
 
+    }
+
+    public Bitmap onDecodeClicked(String code) {
+        byte[] decode = Base64.decode(code, Base64.DEFAULT);
+        Bitmap bitmap = BitmapFactory.decodeByteArray(decode, 0, decode.length);
+        return bitmap;
     }
 
     @Override
@@ -413,24 +459,99 @@ public class MainActivity extends BasicActivity {
         }
     }
 
+    /**
+     * 创建再次提交框
+     */
+    private void createDialog() {
+        alertDialog = new AlertDialog.Builder(this).create();
+        View view = LayoutInflater.from(this).inflate(R.layout.submit_again, null);
+        view.findViewById(R.id.sa_cancle_tv).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                alertDialog.dismiss();
+            }
+        });
+        view.findViewById(R.id.sa_sure_tv).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                submitApply();
+                alertDialog.dismiss();
+            }
+        });
+        alertDialog.setView(view);
+    }
+
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN) {
-            if ((System.currentTimeMillis() - exitTime) > 2000) {
-                Toast.makeText(getApplicationContext(), "再按一次退出程序", Toast.LENGTH_SHORT).show();
-                exitTime = System.currentTimeMillis();
-
-            } else {
-                this.finish();
-                System.exit(0);
-            }
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            startActivity(new Intent(MainActivity.this, LoginActivity.class));
+            finish();
             return true;
         }
         return super.onKeyDown(keyCode, event);
     }
 
+    //************************解决点击其他区域键盘自动收回**************************************//
 
+    // 获取点击事件
 
+    @Override
 
+    public boolean dispatchTouchEvent(MotionEvent ev) {
+
+        // TODO Auto-generated method stub
+
+        if (ev.getAction() == MotionEvent.ACTION_DOWN) {
+
+            View view = getCurrentFocus();
+
+            if (isHideInput(view, ev)) {
+
+                HideSoftInput(view.getWindowToken());
+
+            }
+
+        }
+
+        return super.dispatchTouchEvent(ev);
+
+    }
+
+    // 判定是否需要隐藏
+
+    private boolean isHideInput(View v, MotionEvent ev) {
+
+        if (v != null && (v instanceof EditText)) {
+            int[] l = {0, 0};
+            v.getLocationInWindow(l);
+            int left = l[0], top = l[1], bottom = top + v.getHeight(), right = left
+                    + v.getWidth();
+            if (ev.getX() > left && ev.getX() < right && ev.getY() > top
+                    && ev.getY() < bottom) {
+                return false;
+            } else {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    // 隐藏软键盘
+
+    private void HideSoftInput(IBinder token) {
+
+        if (token != null) {
+
+            InputMethodManager manager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+
+            manager.hideSoftInputFromWindow(token,
+
+                    InputMethodManager.HIDE_NOT_ALWAYS);
+
+        }
+
+    }
+
+    //************************解决点击其他区域键盘自动收回**************************************//
 }

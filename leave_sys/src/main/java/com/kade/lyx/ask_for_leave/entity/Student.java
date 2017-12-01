@@ -456,6 +456,7 @@ public class Student {
         private String state;
         private String reason;
         private String addtime;
+        private String lid;
 
         public String getLid() {
             return lid;
@@ -465,7 +466,7 @@ public class Student {
             this.lid = lid;
         }
 
-        private String lid;
+
 
         public String getId() {
             return id;

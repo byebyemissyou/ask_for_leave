@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/milky_white"
+    android:background="@color/white"
     android:orientation="horizontal"
     >
 
@@ -18,35 +18,33 @@
             android:id="@+id/ll"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:paddingLeft="25px"
             android:orientation="horizontal">
 
             <TextView
                 android:id="@+id/leave_tname"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="5dp"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="10dp"
-                android:layout_marginTop="10dp"
                 android:layout_weight="1"
                 android:lines="1"
                 android:text="类别："
+                android:layout_marginTop="15px"
                 android:textColor="@color/grey_dark"
                 android:textSize="@dimen/text_big" />
 
             <Button
                 android:id="@+id/leave_quit"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="50px"
                 android:layout_gravity="center_vertical"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
-                android:background="@drawable/corners_bg_small"
+                android:layout_marginTop="2dp"
+                android:background="@drawable/bg_small"
                 android:gravity="center"
-                android:padding="5dp"
                 android:text="取消请假"
                 android:textColor="@color/grey_dark"
-                android:textSize="14sp"
+                android:textSize="20sp"
                 android:visibility="visible" />
 
             <TextView
@@ -55,7 +53,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_marginRight="20dp"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="15px"
                 android:text="加班"
                 android:textColor="@color/blue_text"
                 android:textSize="@dimen/text_big" />
@@ -64,10 +62,10 @@
         <View
             android:id="@+id/item_line"
             android:layout_width="match_parent"
-            android:layout_height="0.35dp"
+            android:layout_height="2px"
             android:layout_below="@id/ll"
             android:layout_marginBottom="5dp"
-            android:background="@color/grey_low_2" />
+            android:background="#a1a1a1" />
 
         <TextView
             android:id="@+id/leave_name"

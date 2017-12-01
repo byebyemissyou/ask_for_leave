@@ -32,8 +32,9 @@
     <color name="button_color">#de38a5fd</color>
     <color name="grey_low">#b6b6b6</color>
     <color name="grey_low_2">#949494</color>
-
-
+    <color name="login_choice">#48D1CC</color>
+    <color name="text_gray">#454545</color>
+    <color name="red">#ff0000</color>
 
 
 </resources>

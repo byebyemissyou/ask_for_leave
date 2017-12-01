@@ -10,6 +10,8 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 
+import com.kade.lyx.ask_for_leave.utils.sharedpreferences.UnableClearSharepreferen;
+
 import java.util.Calendar;
 import java.util.Date;
 
@@ -19,9 +21,7 @@ public class BasicActivity extends AppCompatActivity {
     private static final String TAG = "BasicActivity";
     SharedPreferences sp;
     private String sp_info;
-
-
-
+    public String mUrl;//配置接口地址
 
     public static int getGapCount(Date startDate, Date endDate) {
         Calendar fromCalendar = Calendar.getInstance();
@@ -42,9 +42,17 @@ public class BasicActivity extends AppCompatActivity {
 
     }
 
+    public String getImei() {
+//        TelephonyManager TelephonyMgr = (TelephonyManager) getSystemService(TELEPHONY_SERVICE);
+//        return TelephonyMgr.getDeviceId();
+        String sn = android.os.Build.SERIAL;//Android系统2.3版本以上可以获取硬件Serial Number
+        return sn;
+    }
+
 
     /**
      * 检测网络是否可用
+     *
      * @return boolean
      */
     public boolean isNetworkConnected() {
@@ -55,6 +63,7 @@ public class BasicActivity extends AppCompatActivity {
 
     /**
      * 获取当前网络类型
+     *
      * @return 0：没有网络   1：WIFI网络   2：WAP网络    3：NET网络
      */
 
@@ -76,7 +85,7 @@ public class BasicActivity extends AppCompatActivity {
 
             String extraInfo = networkInfo.getExtraInfo();
 
-            if(!TextUtils.isEmpty(extraInfo)){
+            if (!TextUtils.isEmpty(extraInfo)) {
 
                 if (extraInfo.toLowerCase().equals("cmnet")) {
 
@@ -94,21 +103,22 @@ public class BasicActivity extends AppCompatActivity {
     }
 
 
-
-
-
-
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        ExitApplication.getInstance().addActivity(this);
+        mUrl = UnableClearSharepreferen.getInstance().getServerAddress(this);
+    }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mUrl = UnableClearSharepreferen.getInstance().getServerAddress(this);
     }
 
     //快速findViewById
     @SuppressWarnings("unchecked")
-    public final <E extends View> E getView (int id) {
+    public final <E extends View> E getView(int id) {
         try {
             return (E) findViewById(id);
         } catch (ClassCastException ex) {
@@ -118,8 +128,20 @@ public class BasicActivity extends AppCompatActivity {
     }
 
 
-
-
+//    //持久化uid
+//    public String getLoginUserID(){
+//
+//        if (!sp.getString(ConstantPool.SP_ID_INFO,"").equals("")){
+//
+//            sp_info = sp.getString(ConstantPool.SP_ID_INFO,"");
+//
+//        }else {
+//
+//            sp_info ="未获取到uid";
+//        }
+//
+//        return sp_info;
+//    }
 
 
 }

@@ -1,6 +1,7 @@
 package com.kade.lyx.ask_for_leave.adapter;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,6 +24,7 @@ public class LeaveAdapter extends BaseAdapter {
     public LeaveAdapter(Context context, List<Student.LeaveDetails> list) {
         this.context = context;
         this.list = list;
+        Log.i("zzg",list.toString());
     }
 
     @Override
@@ -46,7 +48,7 @@ public class LeaveAdapter extends BaseAdapter {
 
         if (convertView == null) {
             vh = new LeaveAdapter.ViewHolder();
-            convertView = LayoutInflater.from(context).inflate(R.layout.item_leave, null);
+            convertView = LayoutInflater.from(context).inflate(R.layout.item_check_leave, null);
 
             vh.leave_type = (TextView) convertView.findViewById(R.id.leave_state);
             vh.leave_tname = (TextView) convertView.findViewById(R.id.leave_tname);

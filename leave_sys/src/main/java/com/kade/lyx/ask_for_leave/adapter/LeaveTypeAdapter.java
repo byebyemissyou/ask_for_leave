@@ -12,10 +12,12 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.kade.lyx.ask_for_leave.R;
+import com.kade.lyx.ask_for_leave.activity.DetialActivity;
 import com.kade.lyx.ask_for_leave.entity.ConstantPool;
 import com.kade.lyx.ask_for_leave.entity.Student;
 import com.kade.lyx.ask_for_leave.network.Request_Task;
 import com.kade.lyx.ask_for_leave.utils.ToastUtil;
+import com.kade.lyx.ask_for_leave.utils.sharedpreferences.UnableClearSharepreferen;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -75,10 +77,13 @@ public class LeaveTypeAdapter extends RecyclerView.Adapter<LeaveTypeAdapter.Type
                 state = "未审核";
                 break;
             case "1":
-                state = "已审核";
+                state = "审核通过";
                 break;
             case "2":
                 state = "审核未通过";
+                break;
+            case "3": //2017/10/18 10:27 和罗成确认新增状态
+                state = "审核中";
                 break;
             default:
                 state = "未知";
@@ -94,63 +99,76 @@ public class LeaveTypeAdapter extends RecyclerView.Adapter<LeaveTypeAdapter.Type
             vh.leave_name.setText("请假人：" + details.getCname());
         }
 
-        if (state.equals("未审核")) {
+//        if (state.equals("未审核")) {
+//
+//            vh.leave_quit.setVisibility(View.VISIBLE);
+//
+//        } else {
+//
+//            vh.leave_quit.setVisibility(View.GONE);
+//
+//        }
 
-            vh.leave_quit.setVisibility(View.VISIBLE);
-
+        if (details.getState().equals("0")) {
+            vh.leave_quit.setText("取消请假");
         } else {
-
-            vh.leave_quit.setVisibility(View.GONE);
-
+            vh.leave_quit.setText("查询详情");
         }
 
         vh.leave_quit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (list.get(position).getState().equals("0")) {
+                    builder.setTitle("确定取消该请假吗？").setMessage("删除此条请假信息").
+                            setPositiveButton("确认", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
 
-                builder.setTitle("确定取消该请假吗？").setMessage("删除此条请假信息").
-                        setPositiveButton("确认", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-
-                                dialog.dismiss();
+                                    dialog.dismiss();
 
 //                                ToastUtil.showToast(context,"position = " +position +"\n lid = "+list.get(position).getLid());
 
-                                //需要在这里再确定position否则位置不对
-                                new Request_Task(putMapData(list.get(position).getLid()), new Request_Task.CallBack() {
-                                    @Override
-                                    public void doResult(String data) {
+                                    //需要在这里再确定position否则位置不对
+                                    new Request_Task(putMapData(list.get(position).getLid()), new Request_Task.CallBack() {
+                                        @Override
+                                        public void doResult(String data) {
 
-                                        try {
-                                            JSONObject object = new JSONObject(data);
+                                            try {
+                                                JSONObject object = new JSONObject(data);
 
-                                            if (object.getString("result").equals("0")) {
+                                                if (object.getString("result").equals("0")) {
 
-                                                ToastUtil.showToast(context, "请假取消成功");
+                                                    ToastUtil.showToast(context, "请假取消成功");
 
-                                                //重启Activity以刷新数据 （更新整个页面所有的数据方法比较困难，暂时用重启activity处理）
-                                                reStartActivity();
+                                                    //重启Activity以刷新数据 （更新整个页面所有的数据方法比较困难，暂时用重启activity处理）
+                                                    reStartActivity();
 
+                                                }
+
+                                            } catch (JSONException e) {
+                                                e.printStackTrace();
                                             }
-
-                                        } catch (JSONException e) {
-                                            e.printStackTrace();
                                         }
-                                    }
-                                }).execute(ConstantPool.URL);
+                                    }).execute(UnableClearSharepreferen.getInstance().getServerAddress(context));
 
 
-                            }
-                        }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
+                                }
+                            }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
 
-                        dialog.dismiss();
+                            dialog.dismiss();
 
-                    }
-                }).show();
+                        }
+                    }).show();
 
+                } else {
+                    Intent intent = new Intent(context, DetialActivity.class);
+                    intent.putExtra("lid", list.get(position).getLid());
+                    intent.putExtra("cid", cid);
+                    intent.putExtra("status", list.get(position).getState());
+                    context.startActivity(intent);
+                }
             }
         });
 
@@ -160,8 +178,6 @@ public class LeaveTypeAdapter extends RecyclerView.Adapter<LeaveTypeAdapter.Type
         vh.leave_reason.setText("请假原因：" + details.getReason());
         vh.leave_timeS.setText("开始时间：" + details.getStarttime());
         vh.leave_timeE.setText("结束时间：" + details.getEndtime());
-
-
     }
 
     private void reStartActivity() {

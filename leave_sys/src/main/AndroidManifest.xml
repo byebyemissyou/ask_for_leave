@@ -6,33 +6,57 @@
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <!-- 操作sd卡的权限 -->
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.CAMERA"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.CAMERA" />
 
     <application
         android:name=".MyApplication"
         android:allowBackup="true"
-        android:icon="@mipmap/weekly_calendar"
+        android:icon="@mipmap/logo"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
             android:name=".BasicActivity"
-            android:screenOrientation="portrait" />
-
-        <!-- android:theme="@android:style/Theme.Dialog" -->
-
+            android:screenOrientation="landscape" />
         <activity android:name=".activity.MainActivity" />
         <activity android:name=".activity.LeaveActivity" />
-        <activity android:name=".activity.LoginActivity"
+        <activity android:name=".activity.LeaveCheckActivity" />
+        <activity
+            android:name=".activity.LoginActivity"
+            android:windowSoftInputMode="adjustPan">
 
-            >
+            <!-- <intent-filter> -->
+            <!-- <action android:name="android.intent.action.MAIN" /> -->
+
+
+            <!-- <category android:name="android.intent.category.HOME" /> -->
+            <!-- <category android:name="android.intent.category.DEFAULT" /> -->
+            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
+            <!-- </intent-filter> -->
+        </activity>
+        <activity android:name=".activity.TestActivity" />
+        <activity android:name=".activity.DetialActivity" />
+        <activity android:name=".activity.SettingConfigActivity" />
+        <activity android:name=".init.InitialActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
+                <category android:name="android.intent.category.HOME" />
+                <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".activity.SettingActivity"
+            android:label="@string/title_activity_setting" />
+        <activity
+            android:name=".activity.SettingDeviceNoActivity"
+            android:label="@string/title_activity_setting_device_no"/>
+
+        <activity android:name=".update.UpdateDialogActivity" />
+
+        <service android:name=".update.UpdateService" />
     </application>
 
 </manifest>

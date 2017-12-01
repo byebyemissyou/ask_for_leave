@@ -7,6 +7,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context="com.kade.lyx.ask_for_leave.activity.LoginActivity">
+
     <com.jude.rollviewpager.RollPagerView
         android:id="@+id/imageShow"
         android:layout_width="match_parent"
@@ -15,7 +16,6 @@
 
     </com.jude.rollviewpager.RollPagerView>
 
-
     <RelativeLayout
         android:id="@+id/rl1"
         android:layout_width="wrap_content"
@@ -23,11 +23,12 @@
 
         <ImageView
             android:id="@+id/imageView"
-            android:layout_margin="20dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="start"
-            android:src="@drawable/school_logo" />
+            android:layout_margin="20dp"
+            android:src="@drawable/school_logo"
+            android:visibility="gone" />
 
 
         <com.kade.lyx.ask_for_leave.utils.StrokeTextView
@@ -35,37 +36,59 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:clickable="true"
             android:layout_marginRight="60dp"
+            android:clickable="true"
             android:drawableLeft="@mipmap/search"
             android:drawablePadding="10dp"
             android:onClick="l_submit"
+            android:padding="15dp"
             android:text="请假记录"
-            app:outerColor="#000000"
+            android:textSize="30sp"
             app:innnerColor="#ffffff"
-            android:textSize="30sp" />
+            app:outerColor="#000000" />
 
 
     </RelativeLayout>
 
 
     <LinearLayout
-        android:layout_below="@id/rl1"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_below="@id/rl1"
         android:orientation="horizontal">
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="2"
-            android:gravity="center"
-            android:orientation="vertical"
-            android:background="@drawable/corners">
+            android:background="@drawable/corners"
+            android:orientation="vertical">
+            <LinearLayout
+                android:layout_alignParentBottom="true"
+                android:layout_marginBottom="30dp"
+                android:layout_marginStart="50dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
 
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="NO:"
+                    android:textColor="@color/black"
+                    android:textSize="20sp"
+                    android:textStyle="italic" />
 
+                <TextView
+                    android:id="@+id/device_no_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/black"
+                    android:textSize="20sp"
+                    android:textStyle="italic" />
+            </LinearLayout>
 
-        </LinearLayout>
+        </RelativeLayout>
 
         <FrameLayout
             android:layout_width="0dp"
@@ -73,13 +96,14 @@
             android:layout_weight="2"
             android:orientation="vertical">
 
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
                 android:layout_margin="60dp"
                 android:background="@drawable/level_shape"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
                 android:gravity="center"
                 android:orientation="vertical">
 
@@ -90,11 +114,10 @@
                     android:padding="20dp">
 
                     <ImageView
-                        android:id="@+id/iv"
-                        android:layout_width="80dp"
-                        android:layout_height="80dp"
-                        android:layout_alignParentRight="true"
-                        android:src="@mipmap/card_info_pic" />
+                        android:id="@+id/head"
+                        android:layout_width="120dp"
+                        android:layout_height="150dp"
+                        android:layout_alignParentRight="true" />
 
 
                     <TextView
@@ -104,7 +127,7 @@
                         android:layout_marginLeft="8dp"
                         android:layout_marginStart="8dp"
                         android:layout_marginTop="@dimen/activity_horizontal_margin_small"
-                        android:textColor="@color/grey_dark"
+                        android:textColor="@color/black"
                         android:textSize="20sp"
 
                         />
@@ -117,7 +140,7 @@
                         android:layout_marginLeft="8dp"
                         android:layout_marginStart="8dp"
                         android:layout_marginTop="@dimen/activity_horizontal_margin_small"
-                        android:textColor="@color/grey_dark"
+                        android:textColor="@color/black"
                         android:textSize="20sp" />
 
 
@@ -129,7 +152,7 @@
                         android:layout_marginLeft="8dp"
                         android:layout_marginRight="8dp"
                         android:layout_marginTop="@dimen/activity_horizontal_margin_small"
-                        android:textColor="@color/grey_dark"
+                        android:textColor="@color/black"
                         android:textSize="20sp" />
 
 
@@ -142,7 +165,7 @@
                         android:layout_marginRight="8dp"
                         android:layout_marginTop="@dimen/activity_horizontal_margin_small"
                         android:height="30dp"
-                        android:textColor="@color/grey_dark"
+                        android:textColor="@color/black"
                         android:textSize="20sp" />
 
 
@@ -154,21 +177,21 @@
                     android:layout_width="match_parent"
                     android:layout_height="60dp"
                     android:layout_marginTop="5dp"
-                    android:textSize="20sp"
-                    android:background="@drawable/login_back_shape"/>
+                    android:background="@drawable/login_back_shape"
+                    android:textSize="20sp" />
 
                 <EditText
                     android:id="@+id/afleave_reason"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
-                    android:layout_weight="1"
                     android:layout_margin="10dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/edit_shape"
                     android:gravity="start"
                     android:hint="请输入请假理由"
                     android:padding="20dp"
-                    android:textColor="@color/grey_dark"
-                    android:textSize="20sp"
-                    android:background="@drawable/edit_shape"/>
+                    android:textColor="@color/black"
+                    android:textSize="20sp" />
 
                 <TextView
                     android:id="@+id/afleave_sTime"
@@ -179,16 +202,16 @@
                     android:drawableRight="@drawable/right_arrow_24px"
                     android:padding="20dp"
                     android:text="选择开始时间"
+                    android:textColor="@color/black"
                     android:textSize="20sp"
-                    android:textColor="@color/grey_dark"
 
                     />
 
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:background="@color/grey_low"
-                    android:layout_marginTop="10dp"/>
+                    android:layout_marginTop="10dp"
+                    android:background="@color/grey_low" />
 
                 <TextView
                     android:id="@+id/afleave_eTime"
@@ -199,33 +222,55 @@
                     android:drawableRight="@drawable/right_arrow_24px"
                     android:padding="20dp"
                     android:text="选择结束时间"
+                    android:textColor="@color/black"
                     android:textSize="20sp"
-                    android:textColor="@color/grey_dark"
 
                     />
+
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:background="@color/grey_low"
-                    android:layout_marginTop="10dp"/>
+                    android:layout_marginTop="10dp"
+                    android:background="@color/grey_low" />
 
-                <Button
+
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="50dp"
-                    android:background="@drawable/corners_bg_big"
-                    android:onClick="afl_submit"
-                    android:paddingBottom="10dp"
-                    android:paddingLeft="30dp"
-                    android:paddingRight="30dp"
-                    android:paddingTop="10dp"
-                    android:text="提交"
-                    android:textColor="@color/white"
-                    android:textSize="25sp"
-                    android:layout_marginBottom="20dp"/>
-            </LinearLayout>
+                    android:layout_marginTop="20dp"
+                    android:orientation="horizontal">
 
+                    <Button
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:background="@drawable/corners_bg_big"
+                        android:onClick="afl_submit"
+                        android:paddingBottom="10dp"
+                        android:paddingLeft="30dp"
+                        android:paddingRight="30dp"
+                        android:paddingTop="10dp"
+                        android:text="提交"
+                        android:textColor="@color/white"
+                        android:textSize="25sp" />
+
+                    <Button
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginTop="50dp"
+                        android:background="@drawable/corners_bg_big"
+                        android:onClick="afl_back"
+                        android:paddingBottom="10dp"
+                        android:paddingLeft="30dp"
+                        android:paddingRight="30dp"
+                        android:paddingTop="10dp"
+                        android:text="退出"
+                        android:textColor="@color/white"
+                        android:textSize="25sp" />
+                </LinearLayout>
+            </LinearLayout>
 
         </FrameLayout>
 

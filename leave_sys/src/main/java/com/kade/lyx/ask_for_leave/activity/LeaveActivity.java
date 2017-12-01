@@ -1,9 +1,12 @@
 package com.kade.lyx.ask_for_leave.activity;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.kade.lyx.ask_for_leave.BasicActivity;
@@ -37,6 +40,7 @@ public class LeaveActivity extends BasicActivity {
     private StringTypeAdapter adapter1;
     private ArrayList<TypeBean> type1;
     private String cid;
+    private String Ddevice_no;
 
 
     public void putMapData() {
@@ -62,6 +66,13 @@ public class LeaveActivity extends BasicActivity {
         if (list_type == null) {
             list_type = new ArrayList<>();
         }
+//        List<String> _list = new ArrayList<>();
+//        _list.add("全部类型");
+//        for (String s : list_type) {
+//            _list.add(s);
+//        }
+//        list_type.clear();
+//        list_type.addAll(_list);
         newList = new ArrayList<>();
         initViews();
         initListener();
@@ -79,14 +90,12 @@ public class LeaveActivity extends BasicActivity {
                 if (!data.equals(ConstantPool.RESULT_FAILED)) {
                     ParseJson_Leave.parse(data, student);
 
-
                     if (student.getLeaveDetailsList().size() != 0) {
 
                         rv_type_3.setLayoutManager(new LinearLayoutManager(LeaveActivity.this));
                         list = student.getLeaveDetailsList();
-                        adapter = new LeaveTypeAdapter(list,LeaveActivity.this,cid);
+                        adapter = new LeaveTypeAdapter(list, LeaveActivity.this, cid);
                         rv_type_3.setAdapter(adapter);
-
 
                         ToastUtil.showToast(getApplicationContext(), "查询成功");
 
@@ -103,7 +112,7 @@ public class LeaveActivity extends BasicActivity {
                 }
 
             }
-        }).execute(ConstantPool.URL);
+        }).execute(mUrl);
 
 
     }
@@ -127,10 +136,7 @@ public class LeaveActivity extends BasicActivity {
                                 newList.add(leaveDetails);
                             }
                         }
-
                     }
-
-
                 }
 
                 List<TypeBean> list1 = new ArrayList<>();
@@ -145,32 +151,32 @@ public class LeaveActivity extends BasicActivity {
                         list1.add(typeBean);
                     }
                 }
-
                 adapter1.setNewData(list1);
-
-                if (null!=newList){
-
+                if (null != newList) {
                     if (newList.size() == 0) {
                         ToastUtil.showToast(getApplicationContext(), "没有请假数据！");
                     }
-
                 }
-
                 if (null != adapter && null != newList) {
-
                     adapter.setNewData(newList);
                     rv_type_3.setAdapter(adapter);
-
                 }
-
-
             }
         });
-
     }
 
     private void initViews() {
-
+        SharedPreferences sp = getSharedPreferences(ConstantPool.LOGIN_ID, MODE_PRIVATE);
+        Ddevice_no = sp.getString(ConstantPool.DEVICE_NO, "");
+        TextView device_no_tv = (TextView) findViewById(R.id.device_no_tv);
+        device_no_tv.setText(Ddevice_no);//初始化设备号
+        ImageView aln_back_iv = (ImageView) findViewById(R.id.aln_back_iv);
+        aln_back_iv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
         rv_type_1 = (RecyclerView) findViewById(R.id.rv_type_1);
         rv_type_3 = (RecyclerView) findViewById(R.id.rv_type_3);
 

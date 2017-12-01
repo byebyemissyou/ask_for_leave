@@ -1,32 +1,103 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="horizontal"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@drawable/check_back"
+    android:orientation="vertical">
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="#28718f"
+        android:gravity="center"
+        android:text="请假查询"
+        android:textColor="@color/white"
+        android:textSize="20sp" />
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="120dp"
+            android:layout_marginLeft="250dp"
+            android:layout_marginRight="250dp"
+            android:layout_marginTop="100dp"
+            android:background="@drawable/corner_four"
+            android:orientation="vertical"
+            android:paddingBottom="20dp">
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/rv_type_1"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:overScrollMode="never"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:background="@drawable/corner_two_blue"
+                android:gravity="left|center_vertical"
+                android:paddingLeft="15dp"
+                android:text="请假信息"
+                android:textColor="@color/white"
+                android:textSize="20sp" />
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:paddingTop="20dp">
 
-    <View
-        android:layout_width="1dp"
-        android:layout_height="match_parent"
-        android:background="@color/grey_low"/>
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/rv_type_1"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="130"
+                    android:background="@color/white"
+                    android:overScrollMode="never" />
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/rv_type_3"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="2"
-        android:overScrollMode="never"/>
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/rv_type_3"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1143"
+                    android:background="@color/white"
+                    android:overScrollMode="never"
+                    android:paddingLeft="20dp"
+                    android:paddingRight="20dp" />
+            </LinearLayout>
+        </LinearLayout>
 
+        <ImageView
+            android:id="@+id/aln_back_iv"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginBottom="80dp"
+            android:layout_marginEnd="100dp"
+            android:background="@drawable/icon_return" />
 
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="30dp"
+            android:layout_marginStart="50dp"
+            android:orientation="horizontal">
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="NO:"
+                android:textColor="@color/black"
+                android:textSize="20sp"
+                android:textStyle="italic" />
+
+            <TextView
+                android:id="@+id/device_no_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:textSize="20sp"
+                android:textStyle="italic" />
+        </LinearLayout>
+    </RelativeLayout>
 </LinearLayout>
