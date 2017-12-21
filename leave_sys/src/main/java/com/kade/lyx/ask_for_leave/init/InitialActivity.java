@@ -3,6 +3,7 @@ package com.kade.lyx.ask_for_leave.init;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
@@ -61,8 +62,8 @@ public class InitialActivity extends BasicActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        if (initsp.getInitialStatus()) {//判断是否初始化
-//        if (false) {//判断是否初始化
+//        if (initsp.getInitialStatus()) {//判断是否初始化
+        if (true) {//判断是否初始化
             start.setVisibility(View.GONE);
             ai_addr_rl.setVisibility(View.VISIBLE);
         }
@@ -100,6 +101,14 @@ public class InitialActivity extends BasicActivity {
                 } else {
                     ToastUtil.showToast(InitialActivity.this, "请填写完整信息");
                 }
+                break;
+            }
+            case R.id.ai_setting_ib: {
+                //跳转系统设置页面代码 让初始化人员优先让设备连上网络
+                Intent mIntent = new Intent(Settings.ACTION_SETTINGS);
+                mIntent.addFlags(Intent.FLAG_ACTIVITY_NO_USER_ACTION);
+                startActivity(mIntent);
+                break;
             }
         }
     }

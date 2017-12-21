@@ -1,9 +1,12 @@
 package com.kade.lyx.ask_for_leave.network;
 
 import android.os.AsyncTask;
+import android.text.TextUtils;
 import android.util.Base64;
 
+import com.kade.lyx.ask_for_leave.MyApplication;
 import com.kade.lyx.ask_for_leave.entity.ConstantPool;
+import com.kade.lyx.ask_for_leave.utils.ToastUtil;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -225,16 +228,21 @@ public class Request_Task extends AsyncTask<String, Void, String> {
     protected String doInBackground(String... params) {
 
         String re = sendPOSTRequest(params[0], paramsValue);
-
+        if (!TextUtils.isEmpty(re)) {
+            return re;
+        } else {
+            ToastUtil.showToast(MyApplication.getInstence(), "服务器地址配置异常");
+            re = "erro";
+        }
         return re;
-
     }
 
 
     @Override
     protected void onPostExecute(String data) {
         super.onPostExecute(data);
-        callBack.doResult(data);
+        if (!TextUtils.isEmpty(data))
+            callBack.doResult(data);
     }
 
     public String crateRandomNumber(int sum) {

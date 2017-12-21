@@ -15,6 +15,8 @@ import android_serialport_api.SerialPort;
  */
 
 public class MyApplication extends Application {
+    private static MyApplication myApplication;
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -27,13 +29,21 @@ public class MyApplication extends Application {
                         .build());
     }
 
+    public static MyApplication getInstence() {
+        if (myApplication == null) {
+            return new MyApplication();
+        } else {
+            return myApplication;
+        }
+    }
+
     private SerialPort mSerialPort = null;
 
     public SerialPort getSerialPort() throws SecurityException, IOException, InvalidParameterException {
         if (mSerialPort == null) {
             /* Read serial port parameters */
-//            mSerialPort = new SerialPort(new File("/dev/" + "ttyS4"), 115200, 0);
-            mSerialPort = new SerialPort(new File("/dev/" + "ttyS1"), 115200, 0);
+//            mSerialPort = new SerialPort(new File("/dev/" + "ttyS4"), 115200, 0);//安卓主板3288最老款那个设备采用的是连接ttyS4
+            mSerialPort = new SerialPort(new File("/dev/" + "ttyS1"), 115200, 0);//最新设备都是安装ttyS1
         }
         return mSerialPort;
     }

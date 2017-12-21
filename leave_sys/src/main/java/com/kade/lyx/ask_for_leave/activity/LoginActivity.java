@@ -102,8 +102,11 @@ public class LoginActivity extends BaseCardActivity implements View.OnFocusChang
         alt_check_rb = (RadioButton) findViewById(R.id.alt_check_rb);
         alt_leave_rb = (RadioButton) findViewById(R.id.alt_leave_rb);
         device_no_tv = (TextView) findViewById(R.id.device_no_tv);
-        device_no_tv.setText(sp.getString(ConstantPool.DEVICE_NO, ""));
-
+        try {
+            device_no_tv.setText(sp.getString(ConstantPool.DEVICE_NO, ""));
+        }catch (Exception e){
+            device_no_tv.setText("");
+        }
         dialog = new ProgressDialog(this);
         dialog.setCanceledOnTouchOutside(false);
         dialog.setMessage("正在登陆...");
@@ -435,51 +438,55 @@ public class LoginActivity extends BaseCardActivity implements View.OnFocusChang
 
                 @Override
                 public void doResult(String data) {
-                    if (!data.equals(ConstantPool.RESULT_FAILED)) {
-                        try {
-                            JSONObject object = new JSONObject(data);
-                            if (object.getString("result").equals(ConstantPool.RESULT_OK)) {
-                                editor.putString(ConstantPool.DEVICE_NO, object.getString("data"));
-                                editor.commit();
-                                device_no_tv.setText(object.getString("data"));
-                            } else if (object.getString("result").equals("1") && object.getString("data") == "") {
-                                ToastUtil.showToast(LoginActivity.this, "请先设置设备号");
-                                startActivity(new Intent(LoginActivity.this, SettingDeviceNoActivity.class));
+                    if (!TextUtils.isEmpty(data)) {
+                        if (!data.equals(ConstantPool.RESULT_FAILED)) {
+                            try {
+                                JSONObject object = new JSONObject(data);
+                                if (object.getString("result").equals(ConstantPool.RESULT_OK)) {
+                                    editor.putString(ConstantPool.DEVICE_NO, object.getString("data"));
+                                    editor.commit();
+                                    device_no_tv.setText(object.getString("data"));
+                                } else if (object.getString("result").equals("1") && object.getString("data") == "") {
+                                    ToastUtil.showToast(LoginActivity.this, "请先设置设备号");
+                                    startActivity(new Intent(LoginActivity.this, SettingDeviceNoActivity.class));
+                                }
+                            } catch (JSONException e) {
+                                if (type == 2) {//当是刷卡登录时，如果获取设备号异常还是要再次启动寻卡
+                                    starScanCard();
+                                }
+                                e.printStackTrace();
                             }
-                        } catch (JSONException e) {
+                            switch (type) {
+                                case 0: {//回到登录页面重新拉取设备号
+                                    break;
+                                }
+                                case 1: {
+                                    if (!TextUtils.isEmpty(device_no_tv.getText())) {
+                                        loginHttp();
+                                    } else {
+                                        ToastUtil.showToast(LoginActivity.this, "请先设置设备号");
+                                        startActivity(new Intent(LoginActivity.this, SettingDeviceNoActivity.class));
+                                    }
+                                    break;
+                                }
+                                case 2: {
+                                    if (!TextUtils.isEmpty(device_no_tv.getText())) {
+                                        Cardlogin(data);
+                                    } else {
+                                        ToastUtil.showToast(LoginActivity.this, "请先设置设备号");
+                                        startActivity(new Intent(LoginActivity.this, SettingDeviceNoActivity.class));
+                                    }
+                                    break;
+                                }
+                            }
+                        } else {
                             if (type == 2) {//当是刷卡登录时，如果获取设备号异常还是要再次启动寻卡
                                 starScanCard();
                             }
-                            e.printStackTrace();
-                        }
-                        switch (type) {
-                            case 0: {//回到登录页面重新拉取设备号
-                                break;
-                            }
-                            case 1: {
-                                if (!TextUtils.isEmpty(device_no_tv.getText())) {
-                                    loginHttp();
-                                } else {
-                                    ToastUtil.showToast(LoginActivity.this, "请先设置设备号");
-                                    startActivity(new Intent(LoginActivity.this, SettingDeviceNoActivity.class));
-                                }
-                                break;
-                            }
-                            case 2: {
-                                if (!TextUtils.isEmpty(device_no_tv.getText())) {
-                                    Cardlogin(data);
-                                } else {
-                                    ToastUtil.showToast(LoginActivity.this, "请先设置设备号");
-                                    startActivity(new Intent(LoginActivity.this, SettingDeviceNoActivity.class));
-                                }
-                                break;
-                            }
+                            ToastUtil.showToast(LoginActivity.this, "获取设备号异常");
                         }
                     } else {
-                        if (type == 2) {//当是刷卡登录时，如果获取设备号异常还是要再次启动寻卡
-                            starScanCard();
-                        }
-                        ToastUtil.showToast(LoginActivity.this, "获取设备号异常");
+                        ToastUtil.showToast(LoginActivity.this, "服务器异常");
                     }
                 }
             }).execute(mUrl);
