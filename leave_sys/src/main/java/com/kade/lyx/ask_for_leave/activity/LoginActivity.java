@@ -133,7 +133,7 @@ public class LoginActivity extends BaseCardActivity implements View.OnFocusChang
         }, 100);
         user_name.setText("");
         user_password.setText("");
-        getDeviceId(0);//1129
+        getDeviceId(0,"");//1129
     }
 
     /**
@@ -389,7 +389,7 @@ public class LoginActivity extends BaseCardActivity implements View.OnFocusChang
                             && pass.equals(UnableClearSharepreferen.getInstance().getManagerPassword(this))) {
                         startActivity(new Intent(this, SettingActivity.class));//管理账号登录
                     } else {
-                        getDeviceId(1);//1129
+                        getDeviceId(1,"");//1129
                         loginHttp();
                     }
                 } else {
@@ -428,8 +428,9 @@ public class LoginActivity extends BaseCardActivity implements View.OnFocusChang
      * 获取当前设备的设备号（设备号是用户自己设置的设备号，设备唯一识别码是设备的硬件标识码）
      *
      * @param type 0只获取 1账号登录 2刷卡登录
+     * @param cardno 物理卡号 账号登录传空
      */
-    private void getDeviceId(final int type) {
+    private void getDeviceId(final int type, final String cardno) {
         if (UtilTools.hasInternet(this)) {
             LinkedHashMap _paramsValue = new LinkedHashMap<>();
             _paramsValue.put(ConstantPool.PARAM_NAME, "GetDeviceNumber");
@@ -471,7 +472,7 @@ public class LoginActivity extends BaseCardActivity implements View.OnFocusChang
                                 }
                                 case 2: {
                                     if (!TextUtils.isEmpty(device_no_tv.getText())) {
-                                        Cardlogin(data);
+                                        Cardlogin(cardno);
                                     } else {
                                         ToastUtil.showToast(LoginActivity.this, "请先设置设备号");
                                         startActivity(new Intent(LoginActivity.this, SettingDeviceNoActivity.class));
@@ -584,10 +585,7 @@ public class LoginActivity extends BaseCardActivity implements View.OnFocusChang
         if (data.equals("no")) {
             starScanCardSoon();
         } else {
-            getDeviceId(2);//1129
-//            CardloginT(data);
-//            Cardlogin(data);
-//            Cardlogin("2099137312");
+            getDeviceId(2,data);//1129
         }
     }
 

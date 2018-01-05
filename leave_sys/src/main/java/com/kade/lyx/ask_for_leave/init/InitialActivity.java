@@ -36,7 +36,7 @@ public class InitialActivity extends BasicActivity {
     private ProgressDialog dialog;
     private InitialSharepreference initsp;
     private long exitTime = 0;
-    private RelativeLayout ai_addr_rl;
+    private RelativeLayout ai_addr_rl, ai_initial_rl;
     private Button start;
     private EditText ai_addr_et, ai_user_new_number, ai_user_new_password;
 
@@ -49,7 +49,7 @@ public class InitialActivity extends BasicActivity {
     }
 
     private void init() {
-        start = (Button) findViewById(R.id.start);
+        ai_initial_rl = (RelativeLayout) findViewById(R.id.ai_initial_rl);
         ai_addr_et = (EditText) findViewById(R.id.ai_addr_et);
         ai_user_new_number = (EditText) findViewById(R.id.ai_user_new_number);
         ai_user_new_password = (EditText) findViewById(R.id.ai_user_new_password);
@@ -64,7 +64,7 @@ public class InitialActivity extends BasicActivity {
         super.onResume();
 //        if (initsp.getInitialStatus()) {//判断是否初始化
         if (true) {//判断是否初始化
-            start.setVisibility(View.GONE);
+            ai_initial_rl.setVisibility(View.GONE);
             ai_addr_rl.setVisibility(View.VISIBLE);
         }
         if (!TextUtils.isEmpty(UnableClearSharepreferen.getInstance().getServerAddress(this))) {
@@ -131,7 +131,7 @@ public class InitialActivity extends BasicActivity {
                         JSONObject object = new JSONObject(data);
                         if (object.getInt("result") == 0) {
                             initsp.setInitialStatusTrue();
-                            start.setVisibility(View.GONE);
+                            ai_initial_rl.setVisibility(View.GONE);
                             ai_addr_rl.setVisibility(View.VISIBLE);
                             Toast.makeText(InitialActivity.this, object.getString("data"), Toast.LENGTH_SHORT).show();
                         } else if (object.getInt("result") == 2) {

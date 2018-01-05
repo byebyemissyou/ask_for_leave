@@ -17,14 +17,18 @@ import com.kade.lyx.ask_for_leave.entity.ConstantPool;
 import com.kade.lyx.ask_for_leave.network.Request_Task;
 import com.kade.lyx.ask_for_leave.sample.UtileTools;
 import com.kade.lyx.ask_for_leave.update.CheckUpdateEntity;
+import com.kade.lyx.ask_for_leave.update.UpdateAgent;
 import com.kade.lyx.ask_for_leave.utils.ToastUtil;
 import com.kade.lyx.ask_for_leave.utils.utils_parse_json.ParseUpdata;
+
+import org.json.JSONObject;
 
 import java.util.LinkedHashMap;
 
 public class SettingActivity extends BasicActivity {
 
     private Dialog dialog;
+    private CheckUpdateEntity mCheckUpdateEntity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,7 +54,7 @@ public class SettingActivity extends BasicActivity {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 if (UtileTools.hasInternet(SettingActivity.this)) {
-                    upDateApp();
+                    UpdateAgent.checkUpdate(SettingActivity.this, mCheckUpdateEntity);
                 } else {
                     ToastUtil.showToast(SettingActivity.this, "当前网络异常");
                 }
@@ -77,13 +81,6 @@ public class SettingActivity extends BasicActivity {
                 break;
             }
             case R.id.as_updata_tv: {
-//                new Handler().postDelayed(new Runnable() {
-//                    @Override
-//                    public void run() {
-//                        ToastUtil.showToast(SettingActivity.this, "该版本已是最新版本");
-//                    }
-//                }, 1000);
-//
                 upDateApp();
                 break;
             }
@@ -102,18 +99,32 @@ public class SettingActivity extends BasicActivity {
         map_type.put(ConstantPool.PARAM_NAME, "GetLastVersion");
         map_type.put("sname", ConstantPool.APP_NAME);
         new Request_Task(map_type, new Request_Task.CallBack() {
+
             @Override
             public void doResult(String data) {
-                if (!TextUtils.isEmpty(data) && !data.equals(ConstantPool.RESULT_FAILED)) {
-                    CheckUpdateEntity mCheckUpdateEntity = new CheckUpdateEntity();
-                    ParseUpdata.parse(data, mCheckUpdateEntity);
-                    if (UtileTools.getVerCode(SettingActivity.this) < Integer.parseInt(mCheckUpdateEntity.getVer())) {
-                        dialog.show();//1129
+                if (!TextUtils.isEmpty(data)) {
+                    if (data.contains("code")) {
+                        try {
+                            JSONObject jsonObject = new JSONObject(data);
+                            if (jsonObject.getString("code").equals("0")) {
+                                mCheckUpdateEntity = new CheckUpdateEntity();
+                                ParseUpdata.parse(data, mCheckUpdateEntity);
+                                if (UtileTools.getVerCode(SettingActivity.this) < Integer.parseInt(mCheckUpdateEntity.getVer())) {
+                                    dialog.show();
+                                } else {
+                                    ToastUtil.showToast(SettingActivity.this, "当前版本已经是最新版本");
+                                }
+                            } else {
+                                ToastUtil.showToast(SettingActivity.this, "无更新信息");
+                            }
+                        } catch (Exception e) {
+                            ToastUtil.showToast(SettingActivity.this, "数据类型错误，检测更新失败");
+                        }
                     } else {
-                        ToastUtil.showToast(SettingActivity.this, "当前版本已经是最新版本");
+                        ToastUtil.showToast(SettingActivity.this, "无更新信息");
                     }
                 } else {
-                    ToastUtil.showToast(SettingActivity.this, "无更新信息");
+                    ToastUtil.showToast(SettingActivity.this, "返回数据异常");
                 }
             }
         }).execute(ConstantPool.UPDATA_URL);
