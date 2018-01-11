@@ -3,6 +3,7 @@ package com.kade.lyx.ask_for_leave;
 import android.app.Application;
 
 import com.facebook.stetho.Stetho;
+import com.nrs.utils.tools.CrashHandler;
 
 import java.io.File;
 import java.io.IOException;
@@ -20,6 +21,8 @@ public class MyApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        CrashHandler crashHandler = CrashHandler.getInstance();
+        crashHandler.init(this);
         Stetho.initialize(
                 Stetho.newInitializerBuilder(this)
                         .enableDumpapp(

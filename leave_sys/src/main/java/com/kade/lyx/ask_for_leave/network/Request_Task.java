@@ -4,9 +4,8 @@ import android.os.AsyncTask;
 import android.text.TextUtils;
 import android.util.Base64;
 
-import com.kade.lyx.ask_for_leave.MyApplication;
+import com.alibaba.fastjson.JSON;
 import com.kade.lyx.ask_for_leave.entity.ConstantPool;
-import com.kade.lyx.ask_for_leave.utils.ToastUtil;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -20,8 +19,6 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
 import java.util.Map;
-
-import static android.util.Base64.NO_WRAP;
 
 /**
  * Created by lyx on 2016/10/13 0013.
@@ -64,7 +61,7 @@ public class Request_Task extends AsyncTask<String, Void, String> {
         Map<String, String> _data = new HashMap<>();
         //添加appid
 //        String _random_num = crateRandomNumber(ConstantPool.RANDOM_NUMBER_SUM);
-        String _random_num = "12";
+        String _random_num = "120";
         String _method = data.get(ConstantPool.PARAM_NAME);
         String _no_urlcode_param = crateParam(data);
         String _param_data = "";
@@ -106,8 +103,8 @@ public class Request_Task extends AsyncTask<String, Void, String> {
             data.remove(ConstantPool.PARAM_NAME);
         }
         if (data.size() != 0) {
-//            encodedString = Base64.encodeToString(JSON.toJSONString(data).getBytes(), NO_WRAP);
-            encodedString = Base64.encodeToString(toJson(data).getBytes(), NO_WRAP);
+            encodedString = Base64.encodeToString(JSON.toJSONString(data).getBytes(), Base64.NO_WRAP);
+//            encodedString = Base64.encodeToString(toJson(data).getBytes(), NO_WRAP);
         } else {
 //            encodedString = Base64.encodeToString(JSON.toJSONString("{}").getBytes(), NO_WRAP);
             encodedString = "e30=";
@@ -231,7 +228,7 @@ public class Request_Task extends AsyncTask<String, Void, String> {
         if (!TextUtils.isEmpty(re)) {
             return re;
         } else {
-            ToastUtil.showToast(MyApplication.getInstence(), "服务器地址配置异常");
+//            ToastUtil.showToast(MyApplication.getInstence(), "服务器地址配置异常");
             re = "erro";
         }
         return re;

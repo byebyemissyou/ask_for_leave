@@ -55,6 +55,7 @@ public class LoginActivity extends BaseCardActivity implements View.OnFocusChang
     private RadioButton alt_check_rb, alt_leave_rb;
     private SharedPreferences sp;
     private SharedPreferences.Editor editor;
+    private String mUrl;
 
     private LinkedHashMap<String, String> putLoginMap() {
         LinkedHashMap<String, String> map = new LinkedHashMap<>();
@@ -104,7 +105,7 @@ public class LoginActivity extends BaseCardActivity implements View.OnFocusChang
         device_no_tv = (TextView) findViewById(R.id.device_no_tv);
         try {
             device_no_tv.setText(sp.getString(ConstantPool.DEVICE_NO, ""));
-        }catch (Exception e){
+        } catch (Exception e) {
             device_no_tv.setText("");
         }
         dialog = new ProgressDialog(this);
@@ -124,6 +125,7 @@ public class LoginActivity extends BaseCardActivity implements View.OnFocusChang
     @Override
     protected void onResume() {
         super.onResume();
+        mUrl = UnableClearSharepreferen.getInstance().getServerAddress(this);
         sendEnd();
         new Handler().postDelayed(new Runnable() {
             @Override
@@ -133,7 +135,7 @@ public class LoginActivity extends BaseCardActivity implements View.OnFocusChang
         }, 100);
         user_name.setText("");
         user_password.setText("");
-        getDeviceId(0,"");//1129
+        getDeviceId(0, "");
     }
 
     /**
@@ -245,37 +247,24 @@ public class LoginActivity extends BaseCardActivity implements View.OnFocusChang
                                                 Intent in = new Intent(LoginActivity.this, LeaveCheckActivity.class);
                                                 in.putExtra("cid", cid);
                                                 startActivity(in);
-
-
                                             } else {
                                                 starScanCard();
                                                 ToastUtil.showToast(getApplicationContext(), "你的账号没有审核权限!");
-
-
                                             }
-
                                         } else {
                                             starScanCard();
                                             ToastUtil.showToast(getApplicationContext(), getString(R.string.connect_failed_tips));
-
                                         }
                                     }
                                 }).execute(mUrl);
-
-
                             } else {
-
                                 dialog.dismiss();
                                 Intent in = new Intent(LoginActivity.this, MainActivity.class);
                                 in.putExtra("cid", cid);
                                 startActivity(in);
                                 finish();
-
                             }
-
-
                         }
-
                     } else {
 
                         dialog.dismiss();
@@ -389,8 +378,8 @@ public class LoginActivity extends BaseCardActivity implements View.OnFocusChang
                             && pass.equals(UnableClearSharepreferen.getInstance().getManagerPassword(this))) {
                         startActivity(new Intent(this, SettingActivity.class));//管理账号登录
                     } else {
-                        getDeviceId(1,"");//1129
-                        loginHttp();
+                        getDeviceId(1, "");
+//                        loginHttp();
                     }
                 } else {
                     ToastUtil.showToast(getApplicationContext(), "请输入用户名或密码");
@@ -427,70 +416,74 @@ public class LoginActivity extends BaseCardActivity implements View.OnFocusChang
     /**
      * 获取当前设备的设备号（设备号是用户自己设置的设备号，设备唯一识别码是设备的硬件标识码）
      *
-     * @param type 0只获取 1账号登录 2刷卡登录
+     * @param type   0只获取 1账号登录 2刷卡登录
      * @param cardno 物理卡号 账号登录传空
      */
     private void getDeviceId(final int type, final String cardno) {
         if (UtilTools.hasInternet(this)) {
-            LinkedHashMap _paramsValue = new LinkedHashMap<>();
-            _paramsValue.put(ConstantPool.PARAM_NAME, "GetDeviceNumber");
-            _paramsValue.put("dsn", getImei());//传设备唯一识别码
-            new Request_Task(_paramsValue, new Request_Task.CallBack() {
+            if (!TextUtils.isEmpty(mUrl)) {
+                LinkedHashMap _paramsValue = new LinkedHashMap<>();
+                _paramsValue.put(ConstantPool.PARAM_NAME, "GetDeviceNumber");
+                _paramsValue.put("dsn", getImei());//传设备唯一识别码
+                new Request_Task(_paramsValue, new Request_Task.CallBack() {
 
-                @Override
-                public void doResult(String data) {
-                    if (!TextUtils.isEmpty(data)) {
-                        if (!data.equals(ConstantPool.RESULT_FAILED)) {
-                            try {
-                                JSONObject object = new JSONObject(data);
-                                if (object.getString("result").equals(ConstantPool.RESULT_OK)) {
-                                    editor.putString(ConstantPool.DEVICE_NO, object.getString("data"));
-                                    editor.commit();
-                                    device_no_tv.setText(object.getString("data"));
-                                } else if (object.getString("result").equals("1") && object.getString("data") == "") {
-                                    ToastUtil.showToast(LoginActivity.this, "请先设置设备号");
-                                    startActivity(new Intent(LoginActivity.this, SettingDeviceNoActivity.class));
+                    @Override
+                    public void doResult(String data) {
+                        if (!TextUtils.isEmpty(data)) {
+                            if (!data.equals(ConstantPool.RESULT_FAILED)) {
+                                try {
+                                    JSONObject object = new JSONObject(data);
+                                    if (object.getString("result").equals(ConstantPool.RESULT_OK)) {
+                                        editor.putString(ConstantPool.DEVICE_NO, object.getString("data"));
+                                        editor.commit();
+                                        device_no_tv.setText(object.getString("data"));
+                                    } else if (object.getString("result").equals("1") && object.getString("data") == "") {
+                                        ToastUtil.showToast(LoginActivity.this, "请先设置设备号");
+                                        startActivity(new Intent(LoginActivity.this, SettingDeviceNoActivity.class));
+                                    }
+                                } catch (JSONException e) {
+                                    if (type == 2) {//当是刷卡登录时，如果获取设备号异常还是要再次启动寻卡
+                                        starScanCard();
+                                    }
+                                    e.printStackTrace();
                                 }
-                            } catch (JSONException e) {
+                                switch (type) {
+                                    case 0: {//回到登录页面重新拉取设备号
+                                        break;
+                                    }
+                                    case 1: {
+                                        if (!TextUtils.isEmpty(device_no_tv.getText())) {
+                                            loginHttp();
+                                        } else {
+                                            ToastUtil.showToast(LoginActivity.this, "请先设置设备号");
+                                            startActivity(new Intent(LoginActivity.this, SettingDeviceNoActivity.class));
+                                        }
+                                        break;
+                                    }
+                                    case 2: {
+                                        if (!TextUtils.isEmpty(device_no_tv.getText())) {
+                                            Cardlogin(cardno);
+                                        } else {
+                                            ToastUtil.showToast(LoginActivity.this, "请先设置设备号");
+                                            startActivity(new Intent(LoginActivity.this, SettingDeviceNoActivity.class));
+                                        }
+                                        break;
+                                    }
+                                }
+                            } else {
                                 if (type == 2) {//当是刷卡登录时，如果获取设备号异常还是要再次启动寻卡
                                     starScanCard();
                                 }
-                                e.printStackTrace();
-                            }
-                            switch (type) {
-                                case 0: {//回到登录页面重新拉取设备号
-                                    break;
-                                }
-                                case 1: {
-                                    if (!TextUtils.isEmpty(device_no_tv.getText())) {
-                                        loginHttp();
-                                    } else {
-                                        ToastUtil.showToast(LoginActivity.this, "请先设置设备号");
-                                        startActivity(new Intent(LoginActivity.this, SettingDeviceNoActivity.class));
-                                    }
-                                    break;
-                                }
-                                case 2: {
-                                    if (!TextUtils.isEmpty(device_no_tv.getText())) {
-                                        Cardlogin(cardno);
-                                    } else {
-                                        ToastUtil.showToast(LoginActivity.this, "请先设置设备号");
-                                        startActivity(new Intent(LoginActivity.this, SettingDeviceNoActivity.class));
-                                    }
-                                    break;
-                                }
+                                ToastUtil.showToast(LoginActivity.this, "获取设备号异常");
                             }
                         } else {
-                            if (type == 2) {//当是刷卡登录时，如果获取设备号异常还是要再次启动寻卡
-                                starScanCard();
-                            }
-                            ToastUtil.showToast(LoginActivity.this, "获取设备号异常");
+                            ToastUtil.showToast(LoginActivity.this, "服务器异常");
                         }
-                    } else {
-                        ToastUtil.showToast(LoginActivity.this, "服务器异常");
                     }
-                }
-            }).execute(mUrl);
+                }).execute(mUrl);
+            } else {
+                ToastUtil.showToast(this, "接口地址错误，请重新配置");
+            }
         } else {
             ToastUtil.showToast(LoginActivity.this, "无网络");
         }
@@ -585,7 +578,7 @@ public class LoginActivity extends BaseCardActivity implements View.OnFocusChang
         if (data.equals("no")) {
             starScanCardSoon();
         } else {
-            getDeviceId(2,data);//1129
+            getDeviceId(2, data);//1129
         }
     }
 

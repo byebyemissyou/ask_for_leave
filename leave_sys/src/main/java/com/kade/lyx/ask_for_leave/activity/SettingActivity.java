@@ -19,6 +19,7 @@ import com.kade.lyx.ask_for_leave.sample.UtileTools;
 import com.kade.lyx.ask_for_leave.update.CheckUpdateEntity;
 import com.kade.lyx.ask_for_leave.update.UpdateAgent;
 import com.kade.lyx.ask_for_leave.utils.ToastUtil;
+import com.kade.lyx.ask_for_leave.utils.sharedpreferences.UnableClearSharepreferen;
 import com.kade.lyx.ask_for_leave.utils.utils_parse_json.ParseUpdata;
 
 import org.json.JSONObject;
@@ -81,7 +82,11 @@ public class SettingActivity extends BasicActivity {
                 break;
             }
             case R.id.as_updata_tv: {
-                upDateApp();
+                if (UtileTools.hasInternet(SettingActivity.this)) {
+                    upDateApp();
+                } else {
+                    ToastUtil.showToast(SettingActivity.this, "当前网络异常");
+                }
                 break;
             }
             case R.id.as_back_iv: {
@@ -97,20 +102,26 @@ public class SettingActivity extends BasicActivity {
     private void upDateApp() {
         LinkedHashMap<String, String> map_type = new LinkedHashMap<>();
         map_type.put(ConstantPool.PARAM_NAME, "GetLastVersion");
-        map_type.put("sname", ConstantPool.APP_NAME);
+        map_type.put("sname", "1.0");
         new Request_Task(map_type, new Request_Task.CallBack() {
 
             @Override
             public void doResult(String data) {
                 if (!TextUtils.isEmpty(data)) {
-                    if (data.contains("code")) {
+                    if (data.contains("result")) {
                         try {
                             JSONObject jsonObject = new JSONObject(data);
-                            if (jsonObject.getString("code").equals("0")) {
+                            if (jsonObject.getString("result").equals("0")) {
                                 mCheckUpdateEntity = new CheckUpdateEntity();
                                 ParseUpdata.parse(data, mCheckUpdateEntity);
-                                if (UtileTools.getVerCode(SettingActivity.this) < Integer.parseInt(mCheckUpdateEntity.getVer())) {
-                                    dialog.show();
+                                if (TextUtils.isEmpty(mCheckUpdateEntity.getVer())) {
+                                    ToastUtil.showToast(SettingActivity.this, "未拉取到版本号");
+                                } else if (UtileTools.compareVersion(UtileTools.getVerName(SettingActivity.this), mCheckUpdateEntity.getVer()) < 0) {
+                                    if (UtileTools.hasInternet(SettingActivity.this)) {
+                                        UpdateAgent.checkUpdate(SettingActivity.this, mCheckUpdateEntity);
+                                    } else {
+                                        ToastUtil.showToast(SettingActivity.this, "当前网络异常");
+                                    }
                                 } else {
                                     ToastUtil.showToast(SettingActivity.this, "当前版本已经是最新版本");
                                 }
@@ -124,9 +135,9 @@ public class SettingActivity extends BasicActivity {
                         ToastUtil.showToast(SettingActivity.this, "无更新信息");
                     }
                 } else {
-                    ToastUtil.showToast(SettingActivity.this, "返回数据异常");
+                    ToastUtil.showToast(SettingActivity.this, "无更新信息");
                 }
             }
-        }).execute(ConstantPool.UPDATA_URL);
+        }).execute(UnableClearSharepreferen.getInstance().getServerAddress(this));
     }
 }

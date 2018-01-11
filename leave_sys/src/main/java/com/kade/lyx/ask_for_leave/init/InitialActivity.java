@@ -62,8 +62,8 @@ public class InitialActivity extends BasicActivity {
     @Override
     protected void onResume() {
         super.onResume();
-//        if (initsp.getInitialStatus()) {//判断是否初始化
-        if (true) {//判断是否初始化
+        if (initsp.getInitialStatus()) {//判断是否初始化
+//        if (true) {//判断是否初始化
             ai_initial_rl.setVisibility(View.GONE);
             ai_addr_rl.setVisibility(View.VISIBLE);
         }

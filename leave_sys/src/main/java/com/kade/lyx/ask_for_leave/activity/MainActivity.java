@@ -33,6 +33,7 @@ import com.kade.lyx.ask_for_leave.entity.Student;
 import com.kade.lyx.ask_for_leave.network.Request_Task;
 import com.kade.lyx.ask_for_leave.utils.ToastUtil;
 import com.kade.lyx.ask_for_leave.utils.UtilTools;
+import com.kade.lyx.ask_for_leave.utils.sharedpreferences.UnableClearSharepreferen;
 import com.kade.lyx.ask_for_leave.utils.utils_parse_json.ParseJson_AD;
 import com.kade.lyx.ask_for_leave.utils.utils_parse_json.ParseJson_BasicInfo;
 
@@ -73,6 +74,7 @@ public class MainActivity extends BasicActivity {
     private ImageView head;
     private TextView device_no_tv;//显示设备号
     private SharedPreferences sp;
+    private String mUrl;
     private String Device_no;//设备号
 
 
@@ -150,11 +152,11 @@ public class MainActivity extends BasicActivity {
     }
 
     private void putMapData() {
-
         map = new LinkedHashMap<>();
         map.put(ConstantPool.PARAM_NAME, "AddLeaveInfo");
         map.put(ConstantPool.UID, cid);
         map.put("type", type);
+        map.put("dno", Device_no);
         map.put("starttime", sTime);
         map.put("endtime", eTime);
         map.put("reason", content);
@@ -444,6 +446,7 @@ public class MainActivity extends BasicActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_taobao);
+        mUrl = UnableClearSharepreferen.getInstance().getServerAddress(this);
         initView();
         setTimeClickListener();
     }

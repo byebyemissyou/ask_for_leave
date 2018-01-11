@@ -10,8 +10,6 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 
-import com.kade.lyx.ask_for_leave.utils.sharedpreferences.UnableClearSharepreferen;
-
 import java.util.Calendar;
 import java.util.Date;
 
@@ -21,7 +19,7 @@ public class BasicActivity extends AppCompatActivity {
     private static final String TAG = "BasicActivity";
     SharedPreferences sp;
     private String sp_info;
-    public String mUrl;//配置接口地址
+//    public String mUrl;//配置接口地址
 
     public static int getGapCount(Date startDate, Date endDate) {
         Calendar fromCalendar = Calendar.getInstance();
@@ -107,13 +105,13 @@ public class BasicActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ExitApplication.getInstance().addActivity(this);
-        mUrl = UnableClearSharepreferen.getInstance().getServerAddress(this);
+//        mUrl = UnableClearSharepreferen.getInstance().getServerAddress(this);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        mUrl = UnableClearSharepreferen.getInstance().getServerAddress(this);
+//        mUrl = UnableClearSharepreferen.getInstance().getServerAddress(this);
     }
 
     //快速findViewById

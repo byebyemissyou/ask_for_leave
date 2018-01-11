@@ -18,6 +18,7 @@ import com.kade.lyx.ask_for_leave.entity.ConstantPool;
 import com.kade.lyx.ask_for_leave.network.Request_Task;
 import com.kade.lyx.ask_for_leave.utils.ToastUtil;
 import com.kade.lyx.ask_for_leave.utils.UtilTools;
+import com.kade.lyx.ask_for_leave.utils.sharedpreferences.UnableClearSharepreferen;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -115,7 +116,7 @@ public class SettingDeviceNoActivity extends BasicActivity {
                         ToastUtil.showToast(SettingDeviceNoActivity.this, "服务器异常");
                     }
                 }
-            }).execute(mUrl);
+            }).execute(UnableClearSharepreferen.getInstance().getServerAddress(this));
         } else {
             Toast.makeText(SettingDeviceNoActivity.this, "当前网络异常", Toast.LENGTH_LONG).show();
         }

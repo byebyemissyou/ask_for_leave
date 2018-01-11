@@ -18,6 +18,7 @@ import com.kade.lyx.ask_for_leave.entity.Student;
 import com.kade.lyx.ask_for_leave.entity.TypeBean;
 import com.kade.lyx.ask_for_leave.network.Request_Task;
 import com.kade.lyx.ask_for_leave.utils.ToastUtil;
+import com.kade.lyx.ask_for_leave.utils.sharedpreferences.UnableClearSharepreferen;
 import com.kade.lyx.ask_for_leave.utils.utils_parse_json.ParseJson_Leave;
 
 import java.util.ArrayList;
@@ -112,7 +113,7 @@ public class LeaveActivity extends BasicActivity {
                 }
 
             }
-        }).execute(mUrl);
+        }).execute(UnableClearSharepreferen.getInstance().getServerAddress(this));
 
 
     }

@@ -51,8 +51,8 @@ public class SettingConfigActivity extends BasicActivity {
                         && !TextUtils.isEmpty(as_user_new_password.getText())
                         && !TextUtils.isEmpty(as_user_number.getText())
                         && !TextUtils.isEmpty(as_user_password.getText())) {
-                    if (as_user_number.getText().equals(mUs.getManagerNumber(SettingConfigActivity.this))
-                            && as_user_password.getText().equals(mUs.getManagerPassword(SettingConfigActivity.this))) {
+                    if (as_user_number.getText().toString().equals(mUs.getManagerNumber(SettingConfigActivity.this))
+                            && as_user_password.getText().toString().equals(mUs.getManagerPassword(SettingConfigActivity.this))) {
                         if (as_user_password.getText().length() > 5 && as_user_new_number.getText().length() > 5) {
                             mUs.setManagerNumber(SettingConfigActivity.this, as_user_new_number.getText().toString());
                             mUs.setManagerPassword(SettingConfigActivity.this, as_user_new_password.getText().toString());
@@ -60,6 +60,8 @@ public class SettingConfigActivity extends BasicActivity {
                         } else {
                             ToastUtil.showToast(SettingConfigActivity.this, "账号密码至少六位字符");
                         }
+                    }else {
+                        ToastUtil.showToast(SettingConfigActivity.this, "原始账号或密码错误");
                     }
                 } else {
                     ToastUtil.showToast(SettingConfigActivity.this, "请完善填写的信息");
