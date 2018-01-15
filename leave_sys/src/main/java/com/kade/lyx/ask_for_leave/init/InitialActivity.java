@@ -75,7 +75,7 @@ public class InitialActivity extends BasicActivity {
 
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.start: {//确定初始化
+            case R.id.init_start: {//确定初始化
                 if (!UtileTools.hasInternet(this)) {
                     UtileTools.showNetWorkWarring(this);
                 } else {
@@ -143,7 +143,7 @@ public class InitialActivity extends BasicActivity {
                         e.printStackTrace();
                     }
                 } else {
-                    Toast.makeText(InitialActivity.this, "与服务器连接失败", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(InitialActivity.this, "返回数据异常", Toast.LENGTH_SHORT).show();
                 }
             }
         }, false).execute(ConstantPool.INIT_URL);

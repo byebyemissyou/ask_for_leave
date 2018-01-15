@@ -40,6 +40,8 @@ public class SettingActivity extends BasicActivity {
 
     private void init() {
         TextView device_no_tv = (TextView) findViewById(R.id.device_no_tv);
+        TextView as_version_tv = (TextView) findViewById(R.id.as_version_tv);
+        as_version_tv.setText("V: "+UtileTools.getVerName(this));
         SharedPreferences sp = getSharedPreferences(ConstantPool.LOGIN_ID, MODE_PRIVATE);
         device_no_tv.setText(sp.getString(ConstantPool.DEVICE_NO, "000000"));
         AlertDialog.Builder builder = new AlertDialog.Builder(SettingActivity.this);

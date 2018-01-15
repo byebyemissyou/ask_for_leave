@@ -106,4 +106,15 @@
             android:textSize="20sp"
             android:textStyle="italic" />
     </LinearLayout>
+
+    <TextView
+        android:id="@+id/as_version_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="30dp"
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        android:textStyle="italic" />
 </RelativeLayout>
